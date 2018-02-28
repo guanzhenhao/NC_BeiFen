@@ -1,0 +1,28 @@
+PROC C_GRINDING_END DISPLOF
+;;**********程序功能**********
+;;磨削收尾:
+;;关闭各种设备
+;;***************************
+
+STOPRE
+INI[25]=0
+
+IF PROCESS[0]==0
+    G90 G01 C=ACP(INI[27]) F=INI[58]
+    M9
+    M39
+    M29
+    M57
+    M61
+    F_GRINDWHEEL_STOP
+    F_DRESSWHEEL_STOP
+    IF (INI[70]==1) AND (GRIND[2]<>2)
+        M48
+        ;WHILE($A_DBB[9]==0)
+        ;    G4 F0.2
+        ;ENDWHILE
+    ENDIF
+ENDIF
+
+RET
+

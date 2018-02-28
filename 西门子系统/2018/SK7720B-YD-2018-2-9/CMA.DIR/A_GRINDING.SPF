@@ -1,0 +1,15 @@
+PROC A_GRINDING DISPLON
+;;**********程序功能**********
+;;主程序
+;;***************************
+
+B_MACHINE_INI;机床初始化
+
+B_RING_GROOVE;环形槽
+
+B_SCREW;磨削主程序
+
+ENDING:
+
+RET
+

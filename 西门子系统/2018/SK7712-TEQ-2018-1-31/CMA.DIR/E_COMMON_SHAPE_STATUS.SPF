@@ -1,0 +1,20 @@
+PROC E_COMMON_SHAPE_STATUS(REAL ANG_A,REAL ANG_B,REAL RND_VALUE,VAR REAL STATUS_CACU,VAR REAL LENGTH) DISPLOF
+;;**********程序功能**********
+;;根据滚轮半径计算实际行线增加部分长度以及这段长度的加减状态
+;;***************************
+
+IF ANG_A>ANG_B
+    LENGTH=RND_VALUE/TAN((180-ANG_A+ANG_B)/2)
+    STATUS_CACU=1
+ELSE
+    IF ANG_A<ANG_B
+        LENGTH=RND_VALUE/TAN((180+ANG_A-ANG_B)/2)
+        STATUS_CACU=-1
+    ELSE
+        LENGTH=0
+        STATUS_CACU=0
+    ENDIF
+ENDIF
+
+RET
+

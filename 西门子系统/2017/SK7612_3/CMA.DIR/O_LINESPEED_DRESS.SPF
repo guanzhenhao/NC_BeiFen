@@ -1,0 +1,29 @@
+PROC O_LINESPEED_DRESS SBLOF DISPLOF
+;;**********程序功能**********
+;;转速:
+;;***************************
+
+DEF REAL WHEEL_RPM
+
+K_GRINDWHEEL_DIACURNT
+
+WHEEL_RPM=WHEEL_LINESPEED_DRESS[40]*60000/($PI*DRESSER[91])
+
+IF $A_DBB[16]==0
+    INI[71]=20
+ELSE
+    INI[71]=0.2
+ENDIF
+
+IF (INI[91]==0) OR (INI[91]==2)
+    R298=WHEEL_RPM
+    G4 F0.2
+    M23
+ELSE
+    M1=3 S1=WHEEL_RPM
+ENDIF
+
+G4 F=INI[71]
+
+RET
+

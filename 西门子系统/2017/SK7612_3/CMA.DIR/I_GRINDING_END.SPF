@@ -1,0 +1,19 @@
+PROC I_GRINDING_END DISPLOF
+;;**********程序功能**********
+;;磨削收尾:
+;;关闭各种设备
+;;***************************
+
+STOPRE
+
+IF PROCESS[0]==0
+    M9
+    M39
+    M29
+    M57
+    M61
+    K_GRINDWHEEL_STOP
+ENDIF
+
+RET
+

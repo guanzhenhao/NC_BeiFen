@@ -1,0 +1,16 @@
+PROC E_PROBE_DETECTED_ZCMOVE(REAL Z_VALUE,REAL C_ANG,REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;开关检测到后ZC的动作
+;Z_VALUE:z离开距离
+;C_ANG:离开距离
+;SPEED:速度
+;;***************************
+
+WHILE($A_PROBE[1]==1);触碰后离开
+	G91 G01 Z=Z_VALUE C=C_ANG F=SPEED
+ENDWHILE
+
+STOPRE
+
+RET
+

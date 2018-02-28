@@ -1,0 +1,91 @@
+PROC OPERATION DISPLON
+;;**********程序功能**********
+;;对刀主程序:
+;;内外螺纹 首次对刀 二次对刀 自动对刀 角度计算 等子程序的调用
+;;***************************
+
+IF GRIND[0]<>1
+    IF TOOL_SET[8]==0
+        IF GRIND[2]==1
+            IF (INI[36]==0) OR (INI[36]==2)
+                R299=INI[53]
+                G4 F0.2
+                M13
+            ELSE
+                M1=3 S1=INI[53]
+            ENDIF
+            ;G4 F5
+            S_OPERATION_JOG_SW
+        ELSE
+            S_OPERATION_AUTO_SW
+        ENDIF
+    ELSE
+        IF (INI[36]==0) OR (INI[36]==2)
+            R299=INI[53]
+            G4 F0.2
+            M13
+        ELSE
+            M1=3 S1=INI[53]
+        ENDIF
+        G4 F5
+        S_OPERATION_RAND_SW
+    ENDIF
+ ELSE
+    IF TOOL_SET[8]==0
+        IF GRIND[2]==1
+            IF (INI[36]==0) OR (INI[36]==2)
+                R299=INI[53]
+                G4 F0.2
+                M13
+            ELSE
+                M1=3 S1=INI[53]
+            ENDIF
+            G4 F5
+            S_OPERATION_JOG_SN
+        ELSE
+            S_OPERATION_AUTO_SN
+        ENDIF
+    ELSE
+        IF (INI[36]==0) OR (INI[36]==2)
+            R299=INI[53]
+            G4 F0.2
+            M13
+        ELSE
+            M1=3 S1=INI[53]
+        ENDIF
+        G4 F5
+        S_OPERATION_RAND_SN
+    ENDIF
+ENDIF
+
+IF (DRESSER[6]==4) OR (DRESSER[6]==5) OR (DRESSER[6]==6) OR (DRESSER[6]==7)
+    RET
+ENDIF
+
+IF $A_DBB[2]==1
+    GOTOF MASK3
+ELSE
+    PLCASUP1
+    MSG("退刀中,请勿复位程序!")
+    IF GRIND[0]<>1
+        IF GRIND[2]<>2
+            G01 G90 X=INI[23] F=INI[54]
+        ENDIF
+    ELSE
+        IF GRIND[2]<>2
+            G90 G01 X=INI[10] F=PROCESS[11]*4
+            G90 G01 Z=INI[2] F=INI[56]
+        ENDIF
+        G90 G01 Z=INI[28] F=INI[56]
+        IF GRIND[2]<>2
+			G90 G01 X=INI[23] F=INI[54]
+        ENDIF
+    ENDIF
+ENDIF
+
+MASK3:
+MSG("对刀已完成,请等待程序自动结束!")
+G4 F0.1
+
+RET
+

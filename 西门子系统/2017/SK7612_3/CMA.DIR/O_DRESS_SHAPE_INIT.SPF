@@ -1,0 +1,13 @@
+PROC O_DRESS_SHAPE_INIT SBLOF DISPLOF
+;;**********程序功能**********
+;;垂直位置计算:
+;;***************************
+
+IF DRESSER[129]==0
+    DRESSER[108]=DRESSER[126]
+ELSE
+    DRESSER[108]=DRESSER[108]
+ENDIF
+
+RET
+

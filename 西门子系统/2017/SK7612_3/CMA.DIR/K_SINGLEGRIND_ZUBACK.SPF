@@ -1,0 +1,14 @@
+PROC K_SINGLEGRIND_ZUBACK(REAL POSITION) DISPLOF
+;;**********程序功能**********
+;;单向磨削后U后退情况
+
+;;***************************
+
+MSG("砂轮退出工件")
+G90 G01 AX[AXNAME(AXIS_EW)]=POSITION-$AC_DRF[AXNAME(AXIS_EW)] F=PROCESS[22]*4
+INI[96]=0
+MSG("台面到磨削起点")
+G01 Z=INI[7] F=INI[56]
+
+RET
+

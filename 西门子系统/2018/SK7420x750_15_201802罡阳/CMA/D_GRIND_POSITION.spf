@@ -1,0 +1,10 @@
+PROC D_GRIND_POSITION DISPLOF
+;;**********程序功能**********
+;;修整后磨削位置计算
+;;***************************
+
+PROCESS[13]=PROCESS[13]-DRESSER[18]*DRESSER[14]-(DRESSER[19]-1)*DRESSER[15];初始进刀位置计算
+PROCESS[4]=PROCESS[4]-DRESSER[18]*DRESSER[14]-(DRESSER[19]-1)*DRESSER[15];当前进刀位置计算
+
+RET
+

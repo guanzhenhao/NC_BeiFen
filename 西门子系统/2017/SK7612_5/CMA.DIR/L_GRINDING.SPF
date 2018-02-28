@@ -1,0 +1,22 @@
+PROC L_GRINDING DISPLON
+;;**********程序功能**********
+;;端面磨削主程序
+;;***************************
+
+H_MACHINE_INI
+INI[104]=0
+
+IF PROCESS[45]==1
+    GRIND[7]=1
+	M_SCREW
+ENDIF
+
+IF PROCESS[44]==1
+    GRIND[7]=0
+	M_SCREW
+ENDIF
+
+ENDING:
+
+RET
+

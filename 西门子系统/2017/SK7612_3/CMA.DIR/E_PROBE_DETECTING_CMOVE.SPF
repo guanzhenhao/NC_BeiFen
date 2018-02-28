@@ -1,0 +1,12 @@
+PROC E_PROBE_DETECTING_CMOVE(REAL C_ANG,REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;开关检测C的动作
+;C_ANG:检测距离
+;SPEED:速度
+;;***************************
+
+MEAS=1 G91 G01 C=C_ANG F=SPEED
+STOPRE
+
+RET
+

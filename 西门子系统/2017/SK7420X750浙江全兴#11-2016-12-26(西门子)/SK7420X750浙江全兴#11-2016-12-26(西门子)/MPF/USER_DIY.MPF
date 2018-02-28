@@ -1,0 +1,72 @@
+PROC USER_DIY DISPLON;用户自定义工序
+PROCESS[5]=0
+IF INI[26]<>0;0单件小批量/1批量生产
+    PROCESS[4]=PROCESS[13];当前等于初始
+    PROCESS[14]=0;累计磨削清零
+ENDIF
+
+;****************DIY工序1*******************
+DIY[0]=0                        ;单向/双向磨削设定
+DIY[1]=1                        ;磨削次数	
+DIY[2]=0.01                     ;磨削进给量
+DIY[3]=10                       ;磨削速度
+DIY[4]=0                        ;循环多少次修砂轮累计
+DIY[5]=20                       ;磨削中砂轮线速度
+TECH_DRESS_TIME[4]=1            ;磨削中砂轮修整次数
+TECH_DRESS_DEEP[5]=0.01         ;修整进给深度
+TECH_DRESS_FEED[5]=10           ;修整速度
+WHEEL_LINESPEED_DRESS[7]=15     ;修整时砂轮线速度
+;..........................................
+PROCESS[5]=PROCESS[5]+1
+M_GRINDING;
+IF ($A_DBB[0]==1)OR($A_DBB[1]==1)OR($A_DBB[2]==1);按下修整键或对刀键或退刀键
+    GOTOF DIY_ENDING
+ENDIF
+;******************结束1********************
+
+;****************DIY工序2*******************
+DIY[0]=0                        ;单向/双向磨削设定
+DIY[1]=1                        ;磨削次数	
+DIY[2]=0.01                     ;磨削进给量
+DIY[3]=10                       ;磨削速度
+DIY[4]=0                        ;循环多少次修砂轮累计
+DIY[5]=20                       ;磨削中砂轮线速度
+TECH_DRESS_TIME[4]=1            ;磨削中砂轮修整次数
+TECH_DRESS_DEEP[5]=0.01         ;修整进给深度
+TECH_DRESS_FEED[5]=10           ;修整速度
+WHEEL_LINESPEED_DRESS[7]=15     ;修整时砂轮线速度
+;..........................................
+PROCESS[5]=PROCESS[5]+1
+M_GRINDING;
+IF ($A_DBB[0]==1)OR($A_DBB[1]==1)OR($A_DBB[2]==1);按下修整键或对刀键或退刀键
+    GOTOF DIY_ENDING
+ENDIF
+;******************结束2********************
+
+;^^^^^^^^^^^^^^^^DIY_ENDING^^^^^^^^^^^^^^^
+DIY_ENDING:
+G90 G01 C=DC(INI[27]) F=7200;头架在程序结束调整到合适角度
+M9;磨削冷却1关
+M39;磨削冷却2关
+M29;修整冷却关
+M21;吸雾关
+M57;退刀关
+M61;对刀关
+IF (INI[36]==0) OR (INI[36]==2);砂轮类型选择
+    M15
+ELSE
+    M1=5
+ENDIF
+IF (INI[37]==0) OR (INI[37]==2);修整轮类型选择
+    M65
+ELSE
+    IF (INI[36]==0) OR (INI[36]==2)
+        M1=5
+    ELSE
+        M2=5
+    ENDIF
+ENDIF
+G4 F1
+
+M30
+

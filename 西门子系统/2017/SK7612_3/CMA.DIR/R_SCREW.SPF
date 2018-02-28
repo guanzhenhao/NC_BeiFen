@@ -1,0 +1,31 @@
+PROC R_SCREW DISPLON
+;;**********程序功能**********
+;;台阶主程序:
+;;***************************
+
+S_PAR_INI;参数初始化子程序
+
+IF DRESSER[6]<>0;有报警标记则退出程序
+    GOTOF TJ_G_ENDING
+ENDIF
+
+IF TECHNOLOGY[265]+TECHNOLOGY[266]==0;工艺参数中设置的总磨削次数
+    RET
+ENDIF
+
+WHILE(TECHNOLOGY[263]+TECHNOLOGY[264]<=TECHNOLOGY[265]+TECHNOLOGY[266])
+    STOPRE
+    S_CYCLE;螺纹磨削循环
+    IF (DRESSER[6]<>0) OR ($A_DBB[2]==1);有报警/按下退刀键则退出程序
+        GOTOF TJ_G_ENDING
+    ENDIF
+    S_BCYC;工序进给大循环判断
+	S_LINESPEED_GRIND;磨削时砂轮速度调节子程序
+ENDWHILE
+
+TJ_G_ENDING:
+S_GRINDING_END;运行结束
+C_ALARM;机床报警
+
+RET
+

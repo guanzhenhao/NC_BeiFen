@@ -1,0 +1,117 @@
+PROC E_CYCLE_MESSAGE DISPLOF
+;;**********程序功能**********
+;;磨削小循环当前工艺信息:
+;;当前循环次数，头数，进刀量，剩余次数
+;;***************************
+
+CASE PROCESS[2] OF 0 GOTOF MESSAGE_0 1 GOTOF MESSAGE_1 2 GOTOF MESSAGE_2 3 GOTOF MESSAGE_3 4 GOTOF MESSAGE_4 DEFAULT GOTOF MESSAGE_5
+
+MESSAGE_0:
+IF PROCESS[17]==0;如果是X向磨削
+	IF INI[124]<>1;如果不是右齿面磨削
+		IF TOOL_SET[58]==0;单导程
+			MSG("粗磨中-->正在进行第"<<TECH_TIME[0]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[10]-TECH_TIME[0]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ELSE
+			MSG("粗磨中-->正在进行左齿面第"<<TECH_TIME[0]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[10]-TECH_TIME[0]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ENDIF
+	ELSE
+		MSG("粗磨中-->正在进行右齿面第"<<TECH_TIME[0]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[10]-TECH_TIME[0]<<"次,进给量:"<<PROCESS[8]<<"mm")
+	ENDIF
+ELSE
+	IF INI[124]<>1
+		MSG("粗磨中-->正在进行左齿面第"<<TECH_TIME[0]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[310]-TECH_TIME[0]<<"次,进给量:"<<TECHNOLOGY[320]<<"mm")
+	ELSE
+		MSG("粗磨中-->正在进行右齿面第"<<TECH_TIME[0]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[310]-TECH_TIME[0]<<"次,进给量:"<<TECHNOLOGY[320]<<"mm")
+	ENDIF
+	
+ENDIF
+GOTOF MESSAGE_5
+
+
+	IF INI[124]<>1;如果不是右齿面磨削
+		IF TOOL_SET[58]==0;单导程
+			
+		ELSE
+			
+		ENDIF
+	ELSE
+		
+	ENDIF
+ELSE
+	IF INI[124]<>1
+		
+	ELSE
+		
+	ENDIF
+
+
+MESSAGE_1:
+IF PROCESS[17]==0
+	IF INI[124]<>1;如果不是右齿面磨削
+		IF TOOL_SET[58]==0;单导程
+			MSG("半精磨中-->正在进行第"<<TECH_TIME[1]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[11]-TECH_TIME[1]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ELSE
+			MSG("半精磨中-->正在进行左齿面第"<<TECH_TIME[1]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[11]-TECH_TIME[1]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ENDIF
+	ELSE
+		MSG("半精磨中-->正在进行右齿面第"<<TECH_TIME[1]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[11]-TECH_TIME[1]<<"次,进给量:"<<PROCESS[8]<<"mm")
+	ENDIF
+ELSE
+	IF INI[124]<>1
+		MSG("半精磨中-->正在进行左齿面第"<<TECH_TIME[1]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[311]-TECH_TIME[1]<<"次,进给量:"<<TECHNOLOGY[321]<<"mm")
+	ELSE
+		MSG("半精磨中-->正在进行右齿面第"<<TECH_TIME[1]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[311]-TECH_TIME[1]<<"次,进给量:"<<TECHNOLOGY[321]<<"mm")
+	ENDIF
+ENDIF
+
+GOTOF MESSAGE_5
+
+
+MESSAGE_2:
+IF PROCESS[17]==0
+	IF INI[124]<>1;如果不是右齿面磨削
+		IF TOOL_SET[58]==0;单导程
+			MSG("精磨中-->正在进行第"<<TECH_TIME[2]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[12]-TECH_TIME[2]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ELSE
+			MSG("精磨中-->正在进行左齿面第"<<TECH_TIME[2]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[12]-TECH_TIME[2]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ENDIF
+	ELSE
+		MSG("精磨中-->正在进行右齿面第"<<TECH_TIME[2]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[12]-TECH_TIME[2]<<"次,进给量:"<<PROCESS[8]<<"mm")
+	ENDIF
+ELSE
+	IF INI[124]<>1
+		MSG("精磨中-->正在进行左齿面第"<<TECH_TIME[2]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[312]-TECH_TIME[2]<<"次,进给量:"<<TECHNOLOGY[322]<<"mm")
+	ELSE
+		MSG("精磨中-->正在进行右齿面第"<<TECH_TIME[2]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[312]-TECH_TIME[2]<<"次,进给量:"<<TECHNOLOGY[322]<<"mm")
+	ENDIF
+ENDIF
+GOTOF MESSAGE_5
+
+MESSAGE_3:
+IF PROCESS[17]==0
+	IF INI[124]<>1;如果不是右齿面磨削
+		IF TOOL_SET[58]==0;单导程
+			MSG("终磨中-->正在进行第"<<TECH_TIME[3]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[13]-TECH_TIME[3]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ELSE
+			MSG("终磨中-->正在进行左齿面第"<<TECH_TIME[3]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[13]-TECH_TIME[3]<<"次,进给量:"<<PROCESS[8]<<"mm")
+		ENDIF
+	ELSE
+			MSG("终磨中-->正在进行右齿面第"<<TECH_TIME[3]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[13]-TECH_TIME[3]<<"次,进给量:"<<PROCESS[8]<<"mm")
+	ENDIF
+ELSE
+	IF INI[124]<>1
+		MSG("终磨中-->正在进行左齿面第"<<TECH_TIME[3]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[313]-TECH_TIME[3]<<"次,进给量:"<<TECHNOLOGY[323]<<"mm")
+	ELSE
+		MSG("终磨中-->正在进行右齿面第"<<TECH_TIME[3]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<TECHNOLOGY[313]-TECH_TIME[3]<<"次,进给量:"<<TECHNOLOGY[323]<<"mm")
+	ENDIF
+ENDIF
+GOTOF MESSAGE_5
+
+MESSAGE_4:
+MSG("自定义磨削-->正在进行第"<<PROCESS[5]<<"次工序,第"<<TECH_TIME[4]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<DIY[1]-TECH_TIME[4]<<"次,进给量:"<<PROCESS[8]<<"mm")
+
+MESSAGE_5:
+
+RET
+
+

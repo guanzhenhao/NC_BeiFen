@@ -1,0 +1,36 @@
+PROC C_DRESS_INIT_POSITION DISPLOF
+;;**********程序功能**********
+;;修整初始移动位置
+;;***************************
+
+MSG("修整轮运行至起始位置")
+IF GRIND[0]<>1
+    G90 G1 X=WHEEL[10]+10 F=INI[55]
+ELSE
+    IF DRESSER[37]==0
+        G90 G1 X=WHEEL[10]-10 F=INI[55]
+    ELSE
+        G90 G1 X=WHEEL[10]+10 F=INI[55]
+    ENDIF
+ENDIF
+IF DRESSER[37]==0
+    C_RESET_ANGLE
+    MSG("台面到位中")
+    G90 G1 Z=DRESSER[21] F=INI[56]
+ENDIF
+MSG("修整轮运行至修整位置")
+IF GRIND[0]<>1
+    G90 G1 X=WHEEL[10]+1 F=INI[55]
+    G90 G1 X=WHEEL[10]+0.1 F=200
+ELSE
+    IF DRESSER[37]==0
+        G90 G1 X=WHEEL[10]-1 F=INI[55]
+        G90 G1 X=WHEEL[10]-0.1 F=200
+    ELSE
+        G90 G1 X=WHEEL[10]+1 F=INI[55]
+        G90 G1 X=WHEEL[10]+0.1 F=200
+    ENDIF
+ENDIF
+
+RET
+

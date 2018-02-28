@@ -1,0 +1,26 @@
+PROC S_ROTATE_ANGLE DISPLOF
+;;**********程序功能**********
+;;螺旋升角
+;;***************************
+
+IF INI[16]==1
+	IF TRUNC($AA_IM[A]*1000)<>TRUNC(INI[20]*1000)
+		M33
+		G4 F1
+		M35
+		WHILE($A_DBB[3]==0)
+			G4 F0.2
+		ENDWHILE
+		G4 F1
+		MSG("螺旋升角到位中")
+		G90 G01 A=INI[20] F=INI[60]
+		STOPRE
+		G4 F0.5
+		M36
+		G4 F1
+		M34
+	ENDIF
+ENDIF
+
+RET
+

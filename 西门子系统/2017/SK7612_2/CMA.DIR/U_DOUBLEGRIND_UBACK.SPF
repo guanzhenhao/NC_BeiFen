@@ -1,0 +1,13 @@
+PROC U_DOUBLEGRIND_UBACK(REAL POSITION) DISPLOF
+;;**********程序功能**********
+;;双向磨削后U后退情况
+;POSITION:X后退位置
+;;***************************
+
+IF TECHNOLOGY[263]+TECHNOLOGY[264]==TECHNOLOGY[265]+TECHNOLOGY[266]		
+	MSG("砂轮正在退出工件");双向磨削结束,次数已到设定次数,X退刀
+	G90 G01 AX[AXNAME(AXIS_EW)]=POSITION-$AC_DRF[AXNAME(AXIS_EW)] F=PROCESS[101]*4
+ENDIF
+
+RET
+

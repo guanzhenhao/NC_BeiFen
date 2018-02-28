@@ -1,0 +1,10 @@
+PROC D_GRIND_POSITION DISPLOF
+;;**********程序功能**********
+;;修整后磨削位置计算
+;;***************************
+
+PROCESS[13]=PROCESS[13]-(R25-2)*R20-R21
+PROCESS[4]=PROCESS[4]-(R25-2)*R20-R21
+
+RET
+

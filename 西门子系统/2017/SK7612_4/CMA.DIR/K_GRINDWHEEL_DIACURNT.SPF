@@ -1,0 +1,9 @@
+PROC K_GRINDWHEEL_DIACURNT DISPLOF
+;;**********程序功能**********
+;;当前砂轮直径计算
+;;***************************
+
+DRESSER[91]=DRESSER[90]-PROCESS[57]*(DRESSER[119]-DRESSER[88])*2
+
+RET
+

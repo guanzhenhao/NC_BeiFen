@@ -1,0 +1,96 @@
+PROC OPERATION DISPLON
+
+
+IF GRIND[0]<>1
+    IF TOOL_SET[8]==0
+        CASE TOOL_SET[7] OF 0 GOTOF MASK0_SW DEFAULT GOTOF MASK1_SW
+        MASK0_SW:
+        IF INI[36]==0
+            R299=2000
+            G4 F0.2
+            M13
+        ELSE
+            M1=3 S1=2000
+            WAITS
+        ENDIF
+        G4 F5
+        S_OPERATION_JOG_SW
+        GOTOF MASK3
+        
+        MASK1_SW:
+        S_OPERATION_AUTO_SW
+        GOTOF MASK2
+    ELSE
+        IF INI[36]==0
+            R299=2000
+            G4 F0.2
+            M13
+        ELSE
+            M1=3 S1=2000
+            WAITS
+        ENDIF
+        G4 F5
+        S_OPERATION_RAND_SW
+        GOTOF MASK3
+    ENDIF
+ ELSE
+    IF TOOL_SET[8]==0
+        CASE TOOL_SET[7] OF 0 GOTOF MASK0_SN DEFAULT GOTOF MASK1_SN
+        MASK0_SN:
+        IF INI[36]==0
+            R299=20000
+            G4 F0.2
+            M13
+        ELSE
+            M1=3 S1=20000
+            WAITS
+        ENDIF
+        G4 F5
+        S_OPERATION_JOG_SN
+        GOTOF MASK3
+        
+        MASK1_SN:
+        S_OPERATION_AUTO_SN
+        GOTOF MASK2
+    ELSE
+        IF INI[36]==0
+            R299=20000
+            G4 F0.2
+            M13
+        ELSE
+            M1=3 S1=20000
+            WAITS
+        ENDIF
+        G4 F5
+        S_OPERATION_RAND_SN
+        GOTOF MASK3
+    ENDIF
+ENDIF
+
+MASK2:
+IF TOOL_SET[7]==1
+    
+ENDIF
+
+MASK3:
+IF $A_DBB[2]==1
+    GOTOF MASK4
+ELSE
+    PLCASUP1
+    MSG("退刀中,请勿复位程序!")
+    IF GRIND[0]<>1
+        G01 G90 X=INI[23] F1800
+    ELSE
+        G90 G01 X=INI[10] F=500
+        G90 G01 Z=INI[2] F=1500
+        G90 G01 Z=INI[28] F=2500
+        G90 G01 X=INI[23] F2000
+    ENDIF
+ENDIF
+
+MASK4:
+MSG("对刀已完成,请等待程序自动结束!")
+G04 F=0.5
+
+RET
+

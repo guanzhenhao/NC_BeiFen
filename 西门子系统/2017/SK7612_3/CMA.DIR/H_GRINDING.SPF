@@ -1,0 +1,13 @@
+PROC H_GRINDING DISPLON
+;;**********程序功能**********
+;;主程序
+;;***************************
+
+H_MACHINE_INI
+
+H_SCREW
+
+ENDING:
+
+RET
+

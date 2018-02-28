@@ -1,0 +1,74 @@
+PROC JIAJU_MAIN DISPLON
+;;**********程序功能**********
+;;修整夹具的主程序
+;;***************************
+
+;;***************************
+INI[87]=0;;夹具修整是否修砂轮正面
+INI[88]=0;;夹具修整是否修砂轮端面
+TECHNOLOGY[232]=0;;夹具磨削是否磨爪子平面
+TECHNOLOGY[233]=0;;夹具磨削是否磨爪子端面
+;;---------------------------
+DRESSER[116]=0;;夹具修整砂轮转速
+DRESSER[117]=0;;夹具修整修整轮转速
+DRESSER[118]=0;;夹具磨削砂轮转速
+INI[89]=0;;夹具磨削z轴安全起始位置
+INI[67]=0;;自磨修整头架修整器C起始角度
+;;----砂轮修整参数正面部分------
+DRESSER[63]=0;;砂轮在修整器左侧Z坐标
+DRESSER[64]=0;;砂轮在修整器右侧Z坐标
+DRESSER[65]=0;;砂轮接触修整器X坐标
+DRESSER[66]=0;;修整次数
+DRESSER[67]=0;;进刀量
+;;----砂轮修整参数端面部分------
+TOOL_SET[44]=0;;砂轮在修整器上侧X坐标
+TOOL_SET[45]=0;;砂轮在修整器下侧X坐标
+TOOL_SET[46]=0;;砂轮接触修整器Z坐标
+TOOL_SET[47]=0;;修整次数
+TOOL_SET[48]=0;;进刀量
+;;----夹具磨削参数爪子平面部分---
+TECHNOLOGY[230]=0;;夹具磨削砂轮当前直径
+TECHNOLOGY[231]=0;;夹具磨削夹具终直径尺寸
+DRESSER[60]=0;;砂轮在夹具左侧Z坐标
+DRESSER[61]=0;;砂轮在夹具右侧Z坐标
+DRESSER[62]=0;;砂轮接触夹具X轴坐标
+DRESSER[69]=0;;进刀量
+INI[68]=0;;差补螺距
+;;----夹具磨削参数爪子端面部分---
+TECHNOLOGY[234]=0;;砂轮磨削X起点坐标(靠近头架中心的位置)
+TECHNOLOGY[235]=0;;砂轮磨削X终点坐标(靠近爪子平面的位置)
+TECHNOLOGY[236]=0;;砂轮接触夹具Z初始坐标
+TECHNOLOGY[237]=0;;磨削次数
+TECHNOLOGY[238]=0;;进刀量
+;;****************************
+;;****以下部分禁止修改**********
+;;****************************
+
+B_MACHINE_INI
+C_RESET_ANGLE
+
+IF $A_DBB[0]==0
+    IF TECHNOLOGY[232]==1
+        G_JIAJU_GRIND_HORI
+    ENDIF
+    IF TECHNOLOGY[233]==1
+        G_JIAJU_GRIND_VER
+    ENDIF
+ELSE
+    IF INI[87]==1
+        G_JIAJU_DRESS_HORI
+    ENDIF
+    IF INI[88]==1
+        G_JIAJU_DRESS_VER
+    ENDIF
+ENDIF
+
+JIAJU_END:
+F_GRINDWHEEL_STOP
+F_DRESSWHEEL_STOP
+
+G90 G01 Z=INI[89] F=INI[56]
+G90 G01 X=INI[23] F=INI[54]
+
+M30
+

@@ -1,0 +1,27 @@
+PROC C_DRESS_END_POSITION DISPLOF
+;;**********程序功能**********
+;;修整结束移动位置
+;;***************************
+
+MSG("修整轮运行至起始位置")
+IF GRIND[0]<>1
+    G90 G1 X=WHEEL[10]+10 F=INI[55]
+ELSE
+    IF DRESSER[37]==0
+        G90 G1 X=WHEEL[10]-10 F=INI[55]
+    ELSE
+        G90 G1 X=WHEEL[10]+10 F=INI[55]
+    ENDIF
+ENDIF
+IF DRESSER[37]==0
+    MSG("台面离开工件中")
+    IF GRIND[0]<>1
+        G90 G1 Z=INI[6] F=INI[56]
+    ELSE
+        G90 G1 Z=INI[28] F=INI[56]
+    ENDIF
+    C_ROTATE_ANGLE
+ENDIF
+
+RET
+

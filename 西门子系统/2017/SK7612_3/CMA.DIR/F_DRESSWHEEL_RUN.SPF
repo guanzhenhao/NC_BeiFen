@@ -1,0 +1,20 @@
+PROC F_DRESSWHEEL_RUN(REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;修整轮启动
+
+;;***************************
+
+IF (INI[37]==0) OR (INI[37]==2)
+    R297=SPEED
+    G4 F0.2
+    M63
+ELSE
+    IF (INI[36]==0) OR (INI[36]==2)
+        M1=3 S1=SPEED
+    ELSE
+        M2=3 S2=SPEED
+    ENDIF
+ENDIF
+
+RET
+

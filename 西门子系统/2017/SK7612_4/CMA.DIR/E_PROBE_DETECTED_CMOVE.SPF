@@ -1,0 +1,15 @@
+PROC E_PROBE_DETECTED_CMOVE(REAL C_ANG,REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;开关检测到后C的动作
+;C_ANG:离开距离
+;SPEED:速度
+;;***************************
+
+WHILE($A_PROBE[1]==1);如果触碰到
+	G91 G01 C=C_ANG F=SPEED
+ENDWHILE
+
+STOPRE
+
+RET
+

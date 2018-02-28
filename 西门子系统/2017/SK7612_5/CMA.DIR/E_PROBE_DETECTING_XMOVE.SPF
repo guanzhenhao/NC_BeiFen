@@ -1,0 +1,12 @@
+PROC E_PROBE_DETECTING_XMOVE(REAL X_VALUE,REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;开关检测X的动作
+;X_VALUE:检测距离
+;SPEED:速度
+;;***************************
+
+MEAS=1 G91 G01 X=X_VALUE F=SPEED
+STOPRE
+
+RET
+

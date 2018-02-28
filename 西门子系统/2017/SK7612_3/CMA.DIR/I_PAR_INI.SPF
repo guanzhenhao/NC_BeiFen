@@ -1,0 +1,68 @@
+PROC I_PAR_INI SBLOF DISPLOF
+;;**********程序功能**********
+;;参数初始化:
+;;各种参数初始化赋值，判断及运算
+;;***************************
+
+DRFOF
+
+
+DRESSER[6]=0
+PROCESS[28]=0
+PROCESS[19]=0
+TECH_TIME[5]=0
+TECH_TIME[6]=0
+TECH_TIME[7]=0
+TECH_TIME[8]=0
+TECH_TIME[9]=0
+INI[72]=0
+
+GRIND[5]=$A_DBB[0]
+
+IF INI[70]==1
+	IF (GRIND[2]==0) OR (GRIND[2]==2)
+		M47
+		WHILE($A_DBB[10]==0)
+			G4 F0.2
+		ENDWHILE
+	ENDIF
+ENDIF
+
+IF (INI[94]==0) OR (INI[93]<INI[94])
+    INI[95]=0
+ENDIF
+
+IF INI[96]==1
+	PROCESS[20]=PROCESS[20]+PROCESS[21]*PROCESS[57]
+	INI[96]=0
+ENDIF
+
+
+IF DRESSER[131]==0;外圆磨削方向(0从里往外1从外往里)
+	INI[6]=PROCESS[47]+0.1;工件右端
+	INI[7]=PROCESS[48]+0.1;工件左端
+	INI[3]=INI[6]-INI[7];磨削长度
+ELSE
+	INI[7]=PROCESS[47]+0.1;工件右端
+	INI[6]=PROCESS[48]+0.1;工件左端
+	INI[3]=INI[7]-INI[6];磨削长度
+ENDIF
+
+
+PROCESS[18]=0
+IF INI[97]<>0
+	PROCESS[20]=PROCESS[46]
+	PROCESS[58]=0
+ENDIF
+
+
+IF INI[3]<=0
+	DRESSER[6]=1
+ENDIF
+
+IF DRESSER[91]<DRESSER[137];当前砂轮直径<最小砂轮直径
+	DRESSER[6]=9;砂轮过小,请更换砂轮
+ENDIF
+
+RET
+

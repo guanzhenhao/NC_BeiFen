@@ -1,0 +1,14 @@
+PROC S_DRESS_SHAPE DISPLON
+;;**********程序功能**********
+;;齿形选择
+;;***************************
+
+IF DRESSER[18]+DRESSER[19]+DRESSER[20]==0
+    RET
+ENDIF
+
+EXECSTRING(SHAPE)
+DRESSER[5]=1
+
+RET
+

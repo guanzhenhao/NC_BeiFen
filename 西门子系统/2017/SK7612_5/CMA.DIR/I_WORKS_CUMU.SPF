@@ -1,0 +1,17 @@
+PROC I_WORKS_CUMU DISPLOF
+;;**********程序功能**********
+;;工件计数
+;;***************************
+
+IF INI[97]<>0
+    INI[93]=INI[93]+1
+ENDIF
+
+IF (INI[94]<>0) AND (INI[93]>=INI[94])
+    IF INI[93]/INI[94]-TRUNC(INI[93]/INI[94])==0
+        INI[95]=1
+    ENDIF
+ENDIF
+
+RET
+

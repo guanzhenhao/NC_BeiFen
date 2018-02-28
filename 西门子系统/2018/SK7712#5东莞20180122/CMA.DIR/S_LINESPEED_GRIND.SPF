@@ -1,0 +1,50 @@
+PROC S_LINESPEED_GRIND SBLOF DISPLOF
+;;**********程序功能**********
+;;转速:
+;;砂轮转速计算及执行
+;;***************************
+
+DEF REAL WHEEL_RPM
+
+IF GRIND[0]<>1
+    IF WHEEL[12]>=WHEEL[10]
+        DRESSER[24]=DRESSER[23]-(WHEEL[12]-WHEEL[10])*2
+    ELSE
+        DRESSER[24]=DRESSER[23]
+    ENDIF
+ELSE
+    IF DRESSER[37]==0
+        IF WHEEL[12]<=WHEEL[10]
+            DRESSER[24]=DRESSER[23]-(WHEEL[10]-WHEEL[12])*2
+        ELSE
+            DRESSER[24]=DRESSER[23]
+        ENDIF
+    ELSE
+        IF WHEEL[12]>=WHEEL[10]
+            DRESSER[24]=DRESSER[23]-(WHEEL[12]-WHEEL[10])*2
+        ELSE
+            DRESSER[24]=DRESSER[23]
+        ENDIF
+    ENDIF
+ENDIF
+
+WHEEL_RPM=PROCESS[10]*60000/($PI*DRESSER[24])
+
+IF $A_DBB[12]==0
+    INI[71]=4
+ELSE
+    INI[71]=0.2
+ENDIF
+
+IF (INI[36]==0) OR (INI[36]==2)
+    R299=WHEEL_RPM
+    G4 F0.2
+    M13
+ELSE
+    M1=3 S1=WHEEL_RPM
+ENDIF
+
+G4 F=INI[71]
+
+RET
+

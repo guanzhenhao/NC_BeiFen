@@ -1,0 +1,20 @@
+PROC O_DRESS_END_POSITION DISPLOF
+;;**********程序功能**********
+;;修整结束移动位置
+;;***************************
+
+MSG("砂轮架回退到修整位中")
+IF PROCESS[57]==1
+    G90 G01 AX[AXNAME(AXIS_EW)]=DRESSER[100]+2 F=INI[106]
+ELSE
+    G90 G01 AX[AXNAME(AXIS_EW)]=DRESSER[100]-2 F=INI[65]
+ENDIF
+MSG("台面离开中")
+IF GRIND[7]==0
+    G01 Z=PROCESS[34]+1 F=INI[56] 
+ELSE
+    G01 Z=PROCESS[37]+1 F=INI[56] 
+ENDIF
+
+RET
+

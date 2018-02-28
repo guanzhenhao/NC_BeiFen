@@ -1,0 +1,14 @@
+PROC P_GRIND_CENTER_POS DISPLOF
+;;**********程序功能**********
+;;磨削中心初始位置
+;;***************************
+
+IF PROCESS[57]==1
+	G90 G01 AX[AXNAME(AXIS_EW)]=INI[107] F=INI[105]
+ELSE
+	G90 G01 AX[AXNAME(AXIS_EW)]=INI[107] F=INI[54]
+ENDIF
+G90 G01 Z=INI[108] F=INI[56]
+
+RET
+

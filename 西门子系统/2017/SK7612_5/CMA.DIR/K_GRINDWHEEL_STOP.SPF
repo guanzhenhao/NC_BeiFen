@@ -1,0 +1,15 @@
+PROC K_GRINDWHEEL_STOP DISPLOF
+;;**********程序功能**********
+;;砂轮停止
+;;***************************
+
+IF (INI[92]==0) AND (PROCESS[44]+PROCESS[45]+PROCESS[94]==0)
+    IF (INI[91]==0) OR (INI[91]==2)
+        M25
+    ELSE
+        M1=5
+    ENDIF
+ENDIF
+
+RET
+

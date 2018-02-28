@@ -1,0 +1,20 @@
+PROC S_ALARM DISPLOF
+
+
+IF DRESSER[6]<>0
+    IF DRESSER[6]==1
+        MSG("工件左端坐标>工件右端坐标")
+    ELSE
+        IF DRESSER[6]==2
+            MSG("砂轮过小,请更换新砂轮!")
+        ELSE
+            IF DRESSER[6]==3
+                MSG("砂轮过大,请将砂轮修整到小于最大磨削直径!")
+            ENDIF
+        ENDIF
+    ENDIF
+    G4 F999999
+ENDIF
+
+RET
+

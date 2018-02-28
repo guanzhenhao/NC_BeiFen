@@ -1,0 +1,30 @@
+PROC S_LINESPEED_GRIND SBLOF DISPLOF
+;;**********程序功能**********
+;;转速:
+;;砂轮转速计算及执行
+;;***************************
+
+DEF REAL WHEEL_RPM;砂轮转速
+
+K_GRINDWHEEL_DIACURNT;
+
+WHEEL_RPM=PROCESS[109]*60000/($PI*DRESSER[91])
+
+IF $A_DBB[16]==0;砂轮当前未启动
+    INI[71]=20;砂轮启动等待转速到位延时时间
+ELSE
+    INI[71]=0.2
+ENDIF
+
+IF (INI[91]==0) OR (INI[91]==2);砂轮类型选择
+    R298=WHEEL_RPM
+    G4 F0.2
+    M23;砂轮启动
+ELSE
+    M1=3 S1=WHEEL_RPM
+ENDIF
+
+G4 F=INI[71];砂轮转速等待时间
+
+RET
+

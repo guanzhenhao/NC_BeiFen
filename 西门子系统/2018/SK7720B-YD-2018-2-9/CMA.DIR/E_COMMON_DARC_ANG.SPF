@@ -1,0 +1,9 @@
+PROC E_COMMON_DARC_ANG(REAL RND_1,REAL FORCE_POINT_APART,VAR REAL ANG_USED) DISPLOF
+;;**********程序功能**********
+;;双圆弧圆弧所在直线的角度计算
+;;***************************
+
+ANG_USED=90-ASIN(FORCE_POINT_APART/RND_1)
+
+RET
+

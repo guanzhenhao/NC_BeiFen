@@ -1,0 +1,61 @@
+﻿
+STOPRE
+IF INI[73]==0;如果是首件直接松开头尾架
+	M71;头尾架液压生效
+	G04F0.2
+	M75;头架松开
+	G04 F1
+	M10;尾架收回
+    G04F0.5
+	STOPRE
+	WHILE($A_DBB[3]==0);尾架缩回到位检测
+		G04 F0.5
+	ENDWHILE
+	;M72;头尾架液压失效
+	M82;机械手启动	
+    M94;机械手取料
+	G04 F4
+ELSE
+	M94;取料
+	G04 F4
+	STOPRE
+    WHILE($A_DBB[33]==0);检测到头尾架松开信号后松开头尾架
+		MSG("等待取成品到位")
+		STOPRE
+		IF($A_DBD[76]<=0)
+			INI[118]=1
+			RET
+		ENDIF
+		G04F0.5
+	ENDWHILE
+	STOPRE
+	M71;头尾架液压生效
+	G04F0.2
+	M75;头架松开
+	G04 F1
+	M10;尾架收回
+	STOPRE
+	G04F2
+	WHILE($A_DBB[3]==0);尾架缩回到位检测
+		G04 F0.5
+	ENDWHILE
+	;M72;尾架液压失效
+ENDIF
+STOPRE
+WHILE($A_DBB[34]==0);检测上料结束信号
+	MSG("等待送毛坯到位")
+	G04 F0.5
+ENDWHILE
+	M71;头尾架液压生效
+	G04F0.2
+	M14;尾架伸出
+	G04 F1
+	M76;头架加紧
+STOPRE
+WHILE($A_DBB[4]==0);加紧检测
+	G04 F0.5
+ENDWHILE
+	M72;头尾架液压失效
+STOPRE
+RET
+

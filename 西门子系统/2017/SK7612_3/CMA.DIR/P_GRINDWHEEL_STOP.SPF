@@ -1,0 +1,17 @@
+PROC P_GRINDWHEEL_STOP DISPLOF
+;;**********程序功能**********
+;;砂轮停止
+;;***************************
+
+IF (PROCESS[94]==0) OR ($A_DBB[0]==1)
+    IF (GRIND[7]==0) OR (PROCESS[44]==0)
+        IF (INI[91]==0) OR (INI[91]==2)
+            M25
+        ELSE
+            M1=5
+        ENDIF
+    ENDIF
+ENDIF
+
+RET
+

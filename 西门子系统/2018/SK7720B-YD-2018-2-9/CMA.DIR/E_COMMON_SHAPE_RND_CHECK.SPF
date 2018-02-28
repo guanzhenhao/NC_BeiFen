@@ -1,0 +1,13 @@
+PROC E_COMMON_SHAPE_RND_CHECK(REAL ANG_A,REAL ANG_B,REAL WHEEL_RND,VAR REAL RND_VALUE) DISPLOF
+;;**********程序功能**********
+;;检查圆角半径是否正确
+;;***************************
+
+IF ANG_A<ANG_B
+    IF RND_VALUE<WHEEL_RND
+        RND_VALUE=WHEEL_RND
+    ENDIF
+ENDIF
+
+RET
+

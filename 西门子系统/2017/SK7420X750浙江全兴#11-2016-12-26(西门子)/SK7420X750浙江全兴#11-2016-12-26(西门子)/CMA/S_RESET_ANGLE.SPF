@@ -1,0 +1,32 @@
+PROC S_RESET_ANGLE DISPLOF
+;;**********程序功能**********
+;;螺旋升角复位
+;;***************************
+
+IF INI[16]==1
+	IF TRUNC($AA_IM[A]*1000)<>0
+		M33
+		G4 F1
+		M35
+		WHILE($A_DBB[3]==0)
+			G4 F0.2
+		ENDWHILE
+		G4 F1
+		MSG("螺旋升角置零中")
+		IF INI[20]>=0
+			G90 G01 A=-1 F=INI[60]
+		ELSE
+			G90 G01 A=1 F=INI[60]
+		ENDIF
+		G4 F0.5
+		G90 G01 A=0 F=INI[60]
+		STOPRE
+		G4 F0.5
+		M36
+		G4 F1
+		M34
+	ENDIF
+ENDIF
+
+RET
+

@@ -1,0 +1,50 @@
+PROC S_PAR_INI SBLOF DISPLOF
+;;**********程序功能**********
+;;参数初始化:
+;;各种参数初始化赋值，判断及运算
+;;***************************
+
+DRFOF;手轮偏置清除
+
+;参数初始赋值
+DRESSER[6]=0;报警标记取消
+TECHNOLOGY[263]=0;当前粗磨次数
+TECHNOLOGY[264]=0;当前精磨次数
+
+IF INI[70]==1;有自动门(0没有/1有)
+	IF (GRIND[2]==0) OR (GRIND[2]==2);不对刀或自动对刀(只计算C角度)
+		M47;罩壳门关闭
+		WHILE($A_DBB[10]==0);等待罩壳门关闭
+			G4 F0.2
+		ENDWHILE
+	ENDIF
+ENDIF
+
+;工件磨削起点/终点
+IF DRESSER[131]==0;外圆磨削方向(0从里往外1从外往里)
+	INI[7]=PROCESS[47]+0.1;磨削终点
+	INI[6]=PROCESS[34]+PROCESS[55];磨削起点
+	INI[3]=INI[7]-INI[6];磨削长度
+ELSE
+	INI[6]=PROCESS[47]+0.1;磨削起点
+	INI[7]=PROCESS[34]+PROCESS[55];磨削终点
+	INI[3]=INI[6]-INI[7];磨削长度
+ENDIF
+
+PROCESS[107]=0;累计工艺磨削量累计
+PROCESS[108]=PROCESS[20];进刀位置
+
+;U轴初始接触赋值位置选择
+PROCESS[18]=0;当前工艺
+
+;报警判断
+IF INI[3]<=0;磨削长度<=0
+	DRESSER[6]=1;工件左端坐标>工件右端坐标
+ENDIF
+
+IF DRESSER[91]<DRESSER[137];当前砂轮直径<最小砂轮直径
+	DRESSER[6]=9;砂轮过小,请更换砂轮
+ENDIF
+
+RET
+

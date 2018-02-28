@@ -1,0 +1,36 @@
+PROC S_GRINDING_END SBLOF DISPLOF
+;;**********程序功能**********
+;;磨削收尾:
+;;关闭各种设备
+;;***************************
+
+STOPRE
+INI[25]=0
+
+IF PROCESS[0]==0
+    G90 G01 C=DC(INI[27]) F=INI[58]
+    M9
+    M39
+    M29
+    M21
+    M57
+    M61
+    IF (INI[36]==0) OR (INI[36]==2)
+        M15
+    ELSE
+        M1=5
+    ENDIF
+    IF (INI[37]==0) OR (INI[37]==2)
+        M65
+    ELSE
+        IF (INI[36]==0) OR (INI[36]==2)
+            M1=5
+        ELSE
+            M2=5
+        ENDIF
+    ENDIF
+    G4 F1
+ENDIF
+
+RET
+

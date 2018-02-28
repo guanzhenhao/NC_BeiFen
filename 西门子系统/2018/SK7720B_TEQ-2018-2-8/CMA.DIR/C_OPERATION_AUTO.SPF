@@ -1,0 +1,149 @@
+PROC C_OPERATION_AUTO DISPLON
+;;**********程序功能**********
+;;外螺纹自动对刀程序:
+;;适用于接近开关C轴旋转测量初次定位后探头精确测量;接近开关为测量机构1,探头为测量机构2
+;;***************************
+DEF REAL DR30,DR31,DR32
+;;接近开关初测
+MSG("正在运行到测量位置")
+G01 G90 C0 F10800;C轴快速移动到测量角度
+MSG("测头伸出中")
+M33;接近开关伸出
+G04F0.5
+STOPRE
+WHILE($A_DBB[8]<>1);对刀机构1是否伸出到位
+MSG("等待测头伸出到位中!!!")
+G04 F0.2
+ENDWHILE
+STOPRE
+WHILE($A_PROBE[1]==1);如果测头有信号
+G01 G91 C10 F7200
+ENDWHILE
+;C轴正向旋转测量
+MEAS=1 G91 G01 C360 F=3600;正向粗测
+STOPRE
+WHILE($AC_MEA[1]==0);如果没有感应到信号
+MSG("测量错误,测头未检测到信号")
+M0
+ENDWHILE
+TOOL_SET[37]=$AA_MM[C];记录接触角度
+WHILE($A_PROBE[1]==1);如果感应到信号，反向离开
+G91 G01 C-10 F=3600
+ENDWHILE
+;C轴负向旋转测量
+MEAS=1 G91 G01 C-360 F=3600;负向粗测
+STOPRE
+WHILE($AC_MEA[1]==0);如果没有感应到信号
+MSG("测量错误,测头未检测到信号")
+M0
+ENDWHILE
+TOOL_SET[38]=$AA_MM[C];记录接触角度
+WHILE($A_PROBE[1]==1);如果感应到信号，反向离开
+G91 G01 C10 F=3600
+ENDWHILE
+M34;测头收回
+WHILE($A_DBB[7]<>1)
+MSG("等待测头收回到位中")
+ENDWHILE
+IF TOOL_SET[37]<TOOL_SET[38]
+	TOOL_SET[38]=TOOL_SET[38]-360
+ENDIF
+TOOL_SET[39]=(TOOL_SET[37]+TOOL_SET[38])/2;测头中心在滚道中心Z坐标
+STOPRE
+F_ANG_WITHIN_360(TOOL_SET[39])
+DR32=(TOOL_SET[50]/INI[5]-TRUNC(TOOL_SET[50]/INI[5]))*360;计算需要旋转多少度,可将探头移到工件中心
+
+;;探头精测
+IF INI[0]==1;右旋
+	TOOL_SET[39]=TOOL_SET[39]+DR32 
+ENDIF
+IF INI[0]==-1;左旋
+	TOOL_SET[39]=TOOL_SET[39]-DR32 
+ENDIF
+F_ANG_WITHIN_360(TOOL_SET[39])
+G90 G01 C=TOOL_SET[39] F10800
+MSG("测头伸出中")
+M90;测量机构2伸出
+STOPRE
+WHILE($A_DBB[21]<>1);对刀机构2是否伸出到位
+	MSG("等待测头伸出到位中!!!")
+	G04 F0.2
+ENDWHILE
+STOPRE
+WHILE($A_PROBE[2]==1);如果测头有信号
+	MSG("测量错误,接近开关粗测角度有误!!!")
+	M0
+ENDWHILE
+;C轴正向旋转测量
+MEAS=2 G91 G01 C=360 F=3600;正向第一次快速测量
+G04F0.5
+STOPRE
+WHILE($AC_MEA[2]==0);如果没有感应到信号
+	MSG("测量错误,测头未检测到信号")
+	M0
+ENDWHILE
+STOPRE
+WHILE($A_PROBE[2]==1);如果感应到信号，反向离开
+	G91 G01 C=-10 F=3600
+ENDWHILE
+MEAS=2 G91 G01 C360 F=360;正向第二次慢速测量
+G04F0.5
+STOPRE
+WHILE($AC_MEA[2]==0);如果没有感应到信号
+	MSG("测量错误,测头未检测到信号")
+	M0
+ENDWHILE
+G04F0.5
+STOPRE
+TOOL_SET[37]=$AA_MM[C];记录第一次测量点角度
+WHILE($A_PROBE[2]==1);如果感应到信号，反向离开
+	G91 G01 C-10 F=3600
+ENDWHILE
+;C轴负向旋转测量
+MEAS=2 G91 G01 C=-360 F=3600;负向第一次快速测量
+G04F0.5
+STOPRE
+WHILE($AC_MEA[2]==0);如果没有感应到信号
+	MSG("测量错误,测头未检测到信号")
+	M0
+ENDWHILE
+STOPRE
+WHILE($A_PROBE[2]==1);如果感应到信号，反向离开
+	G91 G01 C=10 F=3600
+ENDWHILE
+MEAS=2 G91 G01 C-360 F=360;负向第二次慢速测量
+G04F0.5
+STOPRE
+WHILE($AC_MEA[2]==0);如果没有感应到信号
+	MSG("测量错误,测头未检测到信号")
+	M0
+ENDWHILE
+G04F0.5
+STOPRE
+TOOL_SET[38]=$AA_MM[C];记录第2次测量点角度
+WHILE($A_PROBE[2]==1);如果感应到信号，反向离开
+	G91 G01 C10 F=3600
+ENDWHILE
+STOPRE
+IF TOOL_SET[37]<TOOL_SET[38]
+	TOOL_SET[38]=TOOL_SET[38]-360
+ENDIF
+TOOL_SET[39]=(TOOL_SET[37]+TOOL_SET[38])/2;测头中心在滚道中心C角度
+STOPRE
+F_ANG_WITHIN_360(TOOL_SET[39])
+TOOL_SET[5]=TOOL_SET[39]
+
+;计算C初始角
+STOPRE
+DR30=ABS(INI[42]-INI[6])/INI[5];计算推算的砂轮对刀点到磨削起点螺距数
+DR31=(DR30-TRUNC(DR30))*360;磨削起点到对刀点C轴旋转角度计算
+TOOL_SET[4]=TOOL_SET[5]-DR31+180;外螺纹角度计算不区分左右旋
+STOPRE
+F_ANG_WITHIN_360(TOOL_SET[4]);将TOOL_SET[4]调整到0-360
+M91;测头收回
+WHILE($A_DBB[20]<>1)
+MSG("等待测头收回到位中")
+ENDWHILE
+RET
+
+

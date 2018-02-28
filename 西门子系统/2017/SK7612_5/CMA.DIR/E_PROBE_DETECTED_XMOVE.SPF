@@ -1,0 +1,15 @@
+PROC E_PROBE_DETECTED_XMOVE(REAL X_VALUE,REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;开关检测到后X的动作
+;X_VALUE:离开距离
+;SPEED:速度
+;;***************************
+
+WHILE($A_PROBE[1]==1);如果触碰到
+	G91 G01 X=X_VALUE F=SPEED
+ENDWHILE
+
+STOPRE
+
+RET
+

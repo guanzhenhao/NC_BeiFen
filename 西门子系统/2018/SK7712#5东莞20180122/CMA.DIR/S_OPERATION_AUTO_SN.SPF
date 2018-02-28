@@ -1,0 +1,300 @@
+PROC S_OPERATION_AUTO_SN DISPLOF
+;;**********程序功能**********
+;;内螺纹自动对刀程序:
+;;包含测量头和接近开关类型，圆形孔腰型孔
+;;***************************
+
+DEF REAL DR0,DR1,DR2,DR3,DR4,DR5,DR6,DR7,DR8,DR9,DR10,DR11,DR12,DR13,DR14,DR15,DR16,DR17,DR18,DR19,DR20,DR21,DR22,DR23,DR24,DR25,DR26,DR27,DR28,DR29,DR30,DR31
+
+IF TOOL_SET[31]==0
+    
+    MSG("正在运行到测量位置")
+    G90 G01 Z=INI[48] F=INI[56]
+    G90 G01 C=INI[49] F=INI[58]
+    G90 G01 X=INI[10]-TOOL_SET[23]-INI[34]/2 F=INI[55]
+    MSG("测头伸出中")
+    M33
+    WHILE($A_DBB[8]==0)
+        G4 F0.2
+    ENDWHILE
+    MSG("测头接近工件中")
+    G91 G01 X=TOOL_SET[9]*2 F=INI[65]
+    MEAS=1 G91 G01 Z-200 F=INI[57]
+    STOPRE
+    IF $AC_MEA[1]==0
+        DRESSER[6]=4
+        GOTOF OPERATION_END
+    ENDIF
+    WHILE($A_PROBE[1]==1)
+        G91 G01 Z=5 F=INI[57]
+    ENDWHILE
+    MEAS=1 G91 G01 Z=-10 F=INI[57]/4
+    STOPRE
+    INI[50]=$AA_MM[Z]
+    WHILE($A_PROBE[1]==1)
+        G91 G01 Z=5 F=INI[57]
+    ENDWHILE
+    G91 G01 Z=30 F=INI[56]
+    G90 G01 X=INI[10]-TOOL_SET[23]-INI[34]/2-5 F=INI[55]
+    G90 G01 Z=INI[50]-INI[35] F=INI[56]
+    MEAS=1 G90 G01 X=INI[10]-TOOL_SET[23]-INI[34]/2+TOOL_SET[9]*2 F=INI[65]
+    STOPRE
+    IF $AC_MEA[1]==1
+        DRESSER[6]=5
+        GOTOF OPERATION_END
+    ENDIF
+    IF TOOL_SET[22]==0
+        MSG("正在测量垂直中心")
+        MEAS=1 G91 G01 C180 F=INI[59]*6
+        STOPRE
+        IF $AC_MEA[1]==0
+            DRESSER[6]=4
+            GOTOF OPERATION_END
+        ENDIF
+        WHILE($A_PROBE[1]==1)
+            G91 G01 C-5 F=INI[59]*6
+        ENDWHILE
+        MEAS=1 G91 G01 C10 F=INI[59]
+        STOPRE
+        TOOL_SET[32]=$AA_MM[C]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 C-5 F=INI[59]*6
+        ENDWHILE
+        MEAS=1 G91 G01 C-180 F=INI[59]*6
+        STOPRE
+        WHILE($A_PROBE[1]==1)
+            G91 G01 C5 F=INI[59]*6
+        ENDWHILE
+        MEAS=1 G91 G01 C-10 F=INI[59]
+        STOPRE
+        TOOL_SET[33]=$AA_MM[C]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 C5 F=INI[59]*6
+        ENDWHILE
+        TOOL_SET[5]=(TOOL_SET[32]+TOOL_SET[33]+360)/2
+        IF TOOL_SET[5]>=360
+            TOOL_SET[5]=TOOL_SET[5]-360
+        ENDIF
+        G90 G01 C=TOOL_SET[5] F=INI[59]
+
+        MSG("正在测量水平中心")
+        MEAS=1 G91 G01 Z30 F=INI[57]
+        STOPRE
+        TOOL_SET[35]=$AA_MM[Z]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=-1 F=INI[57]
+        ENDWHILE
+        MEAS=1 G91 G01 Z-30 F=INI[57]
+        STOPRE
+        TOOL_SET[34]=$AA_MM[Z]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=1 F=INI[57]
+        ENDWHILE
+        TOOL_SET[36]=(TOOL_SET[35]+TOOL_SET[34])/2
+        TOOL_SET[1]=TOOL_SET[36]+TOOL_SET[10]+0.5*INI[5]
+        G90 G01 Z=TOOL_SET[36] F=INI[57]
+    ELSE
+        MSG("正在运行到测量位置")
+        DR12=INI[32]*COS(INI[31])
+        DR13=INI[32]*SIN(INI[31])
+        DR14=DR13/($PI*INI[34])*360
+        DR15=INI[33]*COS(INI[31])
+        DR16=INI[33]*SIN(INI[31])
+        DR17=DR16/($PI*INI[34])*360
+        FGROUP(Z)
+        MSG("正在测量水平中心")
+        MEAS=1 G91 G01 Z=-DR15 C=DR17 F=INI[57]
+        STOPRE
+        IF $AC_MEA[1]==0
+            DRESSER[6]=4
+            GOTOF OPERATION_END
+        ENDIF
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=0.2*DR15 C=-0.2*DR17 F=INI[57]
+        ENDWHILE
+        MEAS=1 G91 G01 Z=-DR15 C=DR17 F=INI[57]/4
+        STOPRE
+        DR18=$AA_MM[Z]
+        DR19=$AA_MM[C]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=0.2*DR15 C=-0.2*DR17 F=INI[57]
+        ENDWHILE
+        MEAS=1 G91 G01 Z=DR15 C=-DR17 F=INI[57]
+        STOPRE
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=-0.2*DR15 C=0.2*DR17 F=INI[57]
+        ENDWHILE
+        MEAS=1 G91 G01 Z=DR15 C=-DR17 F=INI[57]/4
+        STOPRE
+        DR20=$AA_MM[Z]
+        DR21=$AA_MM[C]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=-0.2*DR15 C=0.2*DR17 F=INI[57]
+        ENDWHILE
+        DR22=(DR18+DR20)/2
+        DR23=(DR19+DR21+360)/2
+        IF DR23>=360
+            DR23=DR23-360
+        ENDIF
+        G90 G01 Z=DR22 C=DR23 F=INI[57]
+
+        MSG("正在测量垂直中心")
+        MEAS=1 G91 G01 Z=DR12 C=DR14 F=INI[57]
+        STOPRE
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=-0.2*DR12 C=-0.2*DR14 F=INI[57]
+        ENDWHILE
+        MEAS=1 G91 G01 Z=DR12 C=DR14 F=INI[57]/4
+        STOPRE
+        DR24=$AA_MM[Z]
+        DR25=$AA_MM[C]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=-0.2*DR12 C=-0.2*DR14 F=INI[57]
+        ENDWHILE
+        MEAS=1 G91 G01 Z=-DR12 C=-DR14 F=INI[57]
+        STOPRE
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=0.2*DR12 C=0.2*DR14 F=INI[57] 
+        ENDWHILE
+        MEAS=1 G91 G01 Z=-DR12 C=-DR14 F=INI[57]/4
+        STOPRE
+        DR26=$AA_MM[Z]
+        DR27=$AA_MM[C]
+        WHILE($A_PROBE[1]==1)
+            G91 G01 Z=0.2*DR12 C=0.2*DR14 F=INI[57] 
+        ENDWHILE
+        TOOL_SET[36]=(DR24+DR26)/2
+        TOOL_SET[5]=(DR25+DR27+360)/2
+        IF TOOL_SET[5]>=360
+            TOOL_SET[5]=TOOL_SET[5]-360
+        ENDIF
+        TOOL_SET[1]=TOOL_SET[36]+TOOL_SET[10]+0.5*INI[5]
+        G90 G01 Z=TOOL_SET[36] C=TOOL_SET[5] F=INI[57]
+    ENDIF
+ELSE
+    MSG("正在运行到测量位置")
+    G90 G01 Z=INI[48] F=INI[56]
+    G90 G01 C=0 F=INI[58]
+    MSG("测头伸出中")
+    M33
+    WHILE($A_DBB[8]==0)
+        G4 F0.2
+    ENDWHILE
+    MSG("测头接近工件中")
+    G90 G01 X=INI[10]-TOOL_SET[23] F=INI[55]
+    G90 G01 Z=INI[52] F=INI[56]
+    MSG("接近工件中")
+    MEAS=1 G90 G01 X=INI[10]-TOOL_SET[23]-INI[51]/2+2 F=INI[65]
+    STOPRE
+    WHILE($A_PROBE[1]==1)
+        G91 G01 Z=-INI[4]/4 F=INI[57]*6
+        G4 F0.1
+    ENDWHILE
+    
+    MSG("开始检测齿顶一侧")
+    MEAS=1 G91 G01 Z=-INI[4]*2 F=INI[57]*6
+    STOPRE
+    IF $AC_MEA[1]==0
+        DRESSER[6]=6
+        GOTOF OPERATION_END
+    ENDIF
+
+    WHILE($A_PROBE[1]==1)
+        G91 G01 Z=1 F=INI[57]*6
+        G4 F0.1
+    ENDWHILE
+    MEAS=1 G91 G01 Z=-INI[4] F=INI[57]
+    STOPRE
+    TOOL_SET[37]=$AA_IM[Z]
+    WHILE($A_PROBE[1]==1)
+        G91 G01 Z=1 F=INI[57]*6
+        G4 F0.1
+    ENDWHILE
+    MSG("开始检测齿顶另一侧")
+    MEAS=1 G91 G01 Z=INI[4]*2 F=INI[57]*6
+    STOPRE
+    IF $AC_MEA[1]==0
+        DRESSER[6]=6
+        GOTOF OPERATION_END
+    ENDIF
+
+    WHILE($A_PROBE[1]==1)
+        G91 G01 Z=-1 F=INI[57]*6
+    ENDWHILE
+
+    MEAS=1 G91 G01 Z=INI[4] F=INI[57]
+    STOPRE
+    TOOL_SET[38]=$AA_IM[Z]
+    TOOL_SET[39]=(TOOL_SET[37]+TOOL_SET[38])/2
+    TOOL_SET[5]=0
+    TOOL_SET[1]=TOOL_SET[39]+TOOL_SET[10]
+ENDIF
+
+DR30=ABS(TOOL_SET[1]-INI[6])
+DR31=(DR30/INI[5]-TRUNC(DR30/INI[5]))*360
+IF INI[0]==1
+    TOOL_SET[4]=TOOL_SET[5]+DR31
+ELSE
+    TOOL_SET[4]=TOOL_SET[5]-DR31
+ENDIF
+
+WHILE((TOOL_SET[4]>=360) OR (TOOL_SET[4]<0))
+	IF TOOL_SET[4]>=360
+		TOOL_SET[4]=TOOL_SET[4]-360
+	ELSE
+		IF TOOL_SET[4]<0
+			TOOL_SET[4]=360+TOOL_SET[4]
+		ENDIF
+	ENDIF
+ENDWHILE
+
+OPERATION_END:
+IF TOOL_SET[31]==0
+    MSG("测头退回中")
+    M34
+    WHILE($A_DBB[7]==0)
+        G4 F0.2
+    ENDWHILE
+    MSG("测头离开工件中")
+    G90 G01 X=INI[10]-TOOL_SET[23]-INI[34]/2-5 F=INI[65]*4
+    G90 G01 Z=INI[48] F=INI[56]
+ELSE
+    MSG("接近开关离开工件中")
+    G90 G01 X=INI[10]-TOOL_SET[23] F=INI[65]*8
+    G90 G01 Z=INI[48] F=INI[56]
+    MSG("测头退回中")
+    M34
+    WHILE($A_DBB[7]==0)
+        G4 F0.2
+    ENDWHILE
+ENDIF
+
+
+IF GRIND[2]==3
+    MSG("正在移动到起始位置")
+    G90 G01 Z=INI[28] F=INI[56]
+    MSG("头架到位中")
+    G90 G01 C=TOOL_SET[4] F=INI[58]
+    IF (INI[36]==0) OR (INI[36]==2)
+        R299=INI[53]
+        G4 F0.2
+        M13
+    ELSE
+        M1=3 S1=INI[53]
+    ENDIF
+    G4 F5
+    MSG("X轴正移至工件中心")
+    G90 G01 X=INI[10] F=INI[55]
+    MSG("Z轴正移至对刀起点")
+    G90 G01 Z=INI[2] F=INI[56]
+    MSG("手动对刀已启动,请进行对刀操作")
+    FGROUP(Z)
+    IF INI[0]==1
+        G91 Z=-INI[3] X=INI[3]*INI[14]/2 C=-INI[3]/INI[5]*360 F=TECHNOLOGY[30]/4
+    ELSE
+        G91 Z=-INI[3] X=INI[3]*INI[14]/2 C=INI[3]/INI[5]*360 F=TECHNOLOGY[30]/4
+    ENDIF
+ENDIF
+
+RET
+

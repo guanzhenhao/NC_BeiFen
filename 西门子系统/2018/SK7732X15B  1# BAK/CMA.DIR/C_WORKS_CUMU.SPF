@@ -1,0 +1,16 @@
+PROC C_WORKS_CUMU DISPLOF
+;;**********程序功能**********
+;;工件计数
+;;***************************
+IF PROCESS[17]<>1;若果是Z向进刀则不累计
+	INI[73]=INI[73]+1
+	
+ENDIF
+IF (INI[74]<>0) AND (INI[73]>=INI[74])
+    IF INI[73]/INI[74]-TRUNC(INI[73]/INI[74])==0
+        INI[75]=1
+    ENDIF
+ENDIF
+
+RET
+

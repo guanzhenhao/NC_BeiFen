@@ -1,0 +1,21 @@
+PROC N_WORKS_CUMU DISPLOF
+;;**********程序功能**********
+;;工件计数
+;;***************************
+
+IF INI[103]<>0;0是单件磨削模式,1是批量磨削模式
+    IF (GRIND[7]==0) AND (PROCESS[45]==1);当前是左端面且之前磨削过右端面
+        INI[98]=INI[98];磨削工件计数
+    ELSE
+        INI[98]=INI[98]+1;磨削工件计数
+    ENDIF
+ENDIF
+
+IF (INI[99]<>0) AND (INI[98]>=INI[99])
+    IF INI[98]/INI[99]-TRUNC(INI[98]/INI[99])==0
+        INI[100]=1
+    ENDIF
+ENDIF
+
+RET
+

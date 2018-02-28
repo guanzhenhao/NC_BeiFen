@@ -1,0 +1,39 @@
+PROC C_ALARM DISPLOF
+;;**********程序功能**********
+;;报警处理:
+;;系统所有报警的处理，及显示
+;;***************************
+
+IF DRESSER[6]<>0
+    IF DRESSER[6]==1
+        MSG("工件左端坐标>工件右端坐标")
+    ELSE
+        IF DRESSER[6]==2
+            MSG("砂轮过小,请更换新砂轮!")
+        ELSE
+            IF DRESSER[6]==3
+                MSG("砂轮过大,请将砂轮修整到小于最大磨削直径!")
+            ELSE
+                IF DRESSER[6]==4
+                    MSG("工件外径设置有误!")
+                ELSE
+                    IF DRESSER[6]==5
+                        MSG("工件端面到孔距离设置有误!")
+                    ELSE
+                        IF DRESSER[6]==6
+                            MSG("工件小径设置有误,或检测位置太靠外侧!")
+                        ELSE
+                            IF DRESSER[6]==7
+                                MSG("测头距离工件过远,或检测位置太靠外侧!")
+                            ENDIF
+                        ENDIF
+                    ENDIF
+                ENDIF
+            ENDIF
+        ENDIF
+    ENDIF
+    G4 F999999
+ENDIF
+
+RET
+

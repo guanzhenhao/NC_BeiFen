@@ -1,0 +1,14 @@
+PROC F_PROBE_A_PROBE(REAL PROBE_CHOICE) DISPLOF
+;;**********程序功能**********
+;;测量中$A_PROBE信号的状态
+;PROBE_CHOICE:测量机构1/2
+;;***************************
+
+IF PROBE_CHOICE==0;测量机构1
+    TOOL_SET[54]=$A_PROBE[1]
+ELSE
+    TOOL_SET[54]=$A_PROBE[2]
+ENDIF
+
+RET
+

@@ -1,0 +1,14 @@
+PROC D_GRIND_INIT_POSITION(REAL ZPOSITION,REAL XPOSITION,REAL ZSPEED,REAL XSPEED) DISPLOF
+;;**********程序功能**********
+;;磨削起始动作:
+
+
+;;***************************
+
+MSG("台面到磨削起点")
+G90 G01 Z=ZPOSITION F=ZSPEED
+MSG("砂轮到安全位置")
+G90 G01 X=XPOSITION F=XSPEED
+
+RET
+

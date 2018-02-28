@@ -1,0 +1,14 @@
+PROC C_DRESS_INIT_POSITION DISPLOF
+;;**********程序功能**********
+;;修整初始移动位置
+;;***************************
+
+MSG("垂直初始位")
+G90 G01 V=0 F=INI[61];修整开始前V轴到安全位置
+MSG("水平初始位")
+G90 G01 W=DRESSER[33]+DRESSER[22]/2+5 F=INI[63]
+MSG("修整轮运行至修整位置")
+G90 G1 V=WHEEL[10]+2 F=INI[62]
+
+RET
+

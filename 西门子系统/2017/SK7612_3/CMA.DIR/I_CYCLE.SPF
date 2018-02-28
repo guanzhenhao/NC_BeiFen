@@ -1,0 +1,83 @@
+PROC I_CYCLE DISPLON
+;;**********程序功能**********
+;;螺纹磨削循环:
+;;螺纹磨削初始走位及子程序的调用，磨削中修整的调用
+;;***************************
+
+IF TECH_TIME[5]+TECH_TIME[6]+TECH_TIME[7]+TECH_TIME[8]+TECH_TIME[9]==0
+	RET
+ENDIF
+
+IF INI[95]==1
+    INI[95]=0
+    M39
+    H_DRESS
+    J_GRIND_POSITION
+    IF DRESSER[6]<>0
+        RET
+    ENDIF
+    J_LINESPEED_GRIND
+ENDIF
+
+IF (TECH_TIME[5]+TECH_TIME[6]+TECH_TIME[7]+TECH_TIME[8]+TECH_TIME[9]==1) OR (INI[72]==1)
+    INI[72]=0
+    MSG("台面到磨削起点")
+    G90 G01 Z=INI[7] F=INI[56]
+    MSG("砂轮到安全位置")
+    IF PROCESS[57]==1
+        G90 G01 AX[AXNAME(AXIS_EW)]=PROCESS[20]+1 F=INI[105]
+    ELSE
+        G90 G01 AX[AXNAME(AXIS_EW)]=PROCESS[20]-1 F=INI[55]
+    ENDIF
+ENDIF
+
+M20
+M38
+
+J_GRIND
+
+IF INI[96]==0
+    PROCESS[58]=PROCESS[58]+PROCESS[21]
+ENDIF
+
+IF PROCESS[28]==1
+    M39
+    H_DRESS
+    J_GRIND_POSITION
+    PROCESS[28]=0
+    IF DRESSER[6]<>0
+        RET
+    ENDIF
+    INI[72]=1
+    J_LINESPEED_GRIND
+ENDIF
+
+IF (TECH_TIME[5]+TECH_TIME[6]+TECH_TIME[7]+TECH_TIME[8]+TECH_TIME[9]==TECHNOLOGY[78]+TECHNOLOGY[83]+TECHNOLOGY[88]+TECHNOLOGY[93]+DIY[7])
+    MSG("台面到磨削起点")
+    G90 G01 Z=INI[7] F=INI[56]
+    MSG("砂轮到安全位置")
+    IF (PROCESS[44]==0) AND (PROCESS[45]==0) AND (PROCESS[94]==0)
+        IF PROCESS[57]==1
+            G90 G01 AX[AXNAME(AXIS_EW)]=INI[107] F=INI[105]
+        ELSE
+            G90 G01 AX[AXNAME(AXIS_EW)]=INI[107] F=INI[54]
+        ENDIF
+    ELSE
+        IF (PROCESS[45]==1) OR (PROCESS[94]==1);右端面程序/台阶
+            IF PROCESS[57]==1
+                G90 G01 AX[AXNAME(AXIS_EW)]=PROCESS[20]+2 F=INI[105]
+            ELSE
+                G90 G01 AX[AXNAME(AXIS_EW)]=PROCESS[20]-2 F=INI[55]
+            ENDIF
+        ELSE
+            IF PROCESS[57]==1
+                G90 G01 AX[AXNAME(AXIS_EW)]=PROCESS[20]+INI[43]+2 F=INI[105];U轴到安全位置
+            ELSE
+                G90 G01 AX[AXNAME(AXIS_EW)]=PROCESS[20]-INI[43]-2 F=INI[55];X轴到安全位置
+            ENDIF
+        ENDIF
+    ENDIF
+ENDIF
+
+RET
+

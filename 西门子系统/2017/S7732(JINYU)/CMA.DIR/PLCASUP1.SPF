@@ -1,0 +1,75 @@
+PROC PLCASUP1 DISPLOF
+;;**********程序功能**********
+;;退刀及角度计算程序:
+;;首次对刀 手动对刀 自动对刀 二次对刀 下的C角度及X初始位计算，退刀键的回退动作
+;;正常对刀使用左齿面对刀参数
+;;***************************
+
+DEF REAL DR11,DR12,DR13
+
+IF INI[25]==0
+	GOTOF X_BACK
+ENDIF
+
+STOPRE
+TOOL_SET[3]=$AA_IM[X]
+TOOL_SET[21]=$AA_IM[Z]
+TOOL_SET[2]=$AC_DRF[Z]
+TOOL_SET[20]=$AC_DRF[X]
+IF GRIND[2]==1;如果手动对刀
+	INI[92]=0;(左齿面)手轮Z累计偏移量清零
+	INI[91]=0;;(左齿面)手轮X累计偏移量清零
+	INI[97]=0;;右齿面手轮Z累计偏移量清零
+	INI[98]=0;;右齿面手轮X累计偏移量清零
+ELSE
+	IF INI[124]==0
+		INI[92]=INI[92]+TOOL_SET[2];手轮Z累计偏移量记录
+		INI[91]=INI[91]+TOOL_SET[20];手轮X累计偏移量记录
+	ELSE
+		INI[97]=INI[97]+TOOL_SET[2];;右齿面手轮Z累计偏移量清零
+		INI[98]=INI[98]+TOOL_SET[20];;右齿面手轮X累计偏移量清零
+	ENDIF
+ENDIF
+IF TOOL_SET[8]==0
+	IF GRIND[2]==1;如果是手动对刀
+		F_C_START_ANG_FROM_ZC(TOOL_SET[0],TOOL_SET[5])
+		F_C_MODIFY_BY_Z(TOOL_SET[2])
+		TOOL_SET[3]=TOOL_SET[3]-ABS(TOOL_SET[21]-INI[6])*INI[14]/2
+	ELSE
+		IF GRIND[2]==3
+			TOOL_SET[3]=TOOL_SET[3]-ABS(TOOL_SET[21]-INI[6])*INI[14]/2
+			F_C_MODIFY_BY_Z(TOOL_SET[2])
+		ENDIF
+	ENDIF
+	IF (GRIND[2]<>2)AND(TOOL_SET[57]<>1);如果不是自动对刀且不是右齿面对刀
+		PROCESS[13]=TOOL_SET[3]
+		PROCESS[4]=PROCESS[13]
+	ENDIF
+	TOOL_SET[8]=1
+	PROCESS[14]=0
+ELSE
+	IF TOOL_SET[40]<>0
+		PROCESS[13]=PROCESS[13]+TOOL_SET[20]+2
+		PROCESS[4]=PROCESS[4]+TOOL_SET[20]+2
+		TOOL_SET[40]=0
+	ELSE
+		PROCESS[13]=PROCESS[13]+TOOL_SET[20]
+		PROCESS[4]=PROCESS[4]+TOOL_SET[20]
+	ENDIF
+	F_C_MODIFY_BY_Z(TOOL_SET[2])
+ENDIF
+
+	F_ANG_WITHIN_360(TOOL_SET[4])
+	F_ANG_WITHIN_360(TOOL_SET[59])
+
+
+STOPRE
+DRFOF
+
+X_BACK:
+IF $A_DBB[2]==1
+	C_EXITWORK
+ENDIF
+
+RET
+

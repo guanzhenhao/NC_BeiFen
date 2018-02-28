@@ -1,0 +1,13 @@
+PROC E_PROBE_DETECTING_ZCMOVE(REAL Z_VALUE,REAL C_ANG,REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;腰型孔检测的ZC动作
+;Z_VALUE:z轴移动距离
+;C_ANG:检测距离
+;SPEED:速度
+;;***************************
+
+MEAS=1 G91 G01 Z=Z_VALUE C=C_ANG F=SPEED
+STOPRE
+
+RET
+

@@ -1,0 +1,23 @@
+PROC D_ROLLING DISPLOF
+;;**********程序功能**********
+;;滚压修整
+;;***************************
+
+DEF AXIS AXIVER
+
+AXIVER=AXNAME(AXIS_VER)
+
+G90 G1 AX[AXIVER]=WHEEL[10] F=DRESSER[10]
+G4 F=WHEEL[18]
+IF GRIND[0]<>1
+    G91 G1 AX[AXIVER]=0.1 F=DRESSER[10]
+ELSE
+    IF DRESSER[37]==0
+        G91 G1 AX[AXIVER]=-0.1 F=DRESSER[10]
+    ELSE
+        G91 G1 AX[AXIVER]=0.1 F=DRESSER[10]
+    ENDIF
+ENDIF
+
+RET
+

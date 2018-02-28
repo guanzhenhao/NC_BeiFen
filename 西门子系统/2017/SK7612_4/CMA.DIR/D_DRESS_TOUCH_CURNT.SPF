@@ -1,0 +1,20 @@
+PROC D_DRESS_TOUCH_CURNT(REAL FEED) DISPLOF
+;;**********程序功能**********
+;;当前接触位置累积
+;;***************************
+
+IF GRIND[0]<>1
+    WHEEL[10]=WHEEL[10]-FEED
+    WHEEL[11]=WHEEL[11]-FEED
+ELSE
+    IF DRESSER[37]==0
+        WHEEL[10]=WHEEL[10]+FEED
+        WHEEL[11]=WHEEL[11]+FEED
+    ELSE
+        WHEEL[10]=WHEEL[10]-FEED
+        WHEEL[11]=WHEEL[11]-FEED
+    ENDIF
+ENDIF
+
+RET
+

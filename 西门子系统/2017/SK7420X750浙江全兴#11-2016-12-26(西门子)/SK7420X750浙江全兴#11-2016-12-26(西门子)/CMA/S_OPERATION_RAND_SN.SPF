@@ -1,0 +1,26 @@
+PROC S_OPERATION_RAND_SN DISPLOF
+;;**********程序功能**********
+;;内螺纹二次对刀程序
+;;***************************
+
+G90 G01 Z=INI[28] F=INI[56]
+MSG("X轴正移至对刀起始位")
+G90 G01 X=INI[10] F=INI[55]
+MSG("Z轴正移至对刀起点")  
+G90 G01 Z=INI[2] F=INI[56]
+MSG("头架到位中")
+C=TOOL_SET[4] F=INI[58]
+MSG("砂轮正在进入工件螺纹")
+G01 X=PROCESS[4] F=PROCESS[11]
+STOPRE
+
+MSG("二次对刀以启动,请在砂轮进入螺旋槽后进行对刀操作")
+FGROUP(Z)
+IF INI[0]==1
+	G91 Z=-INI[3] X=INI[3]*INI[14]/2 C=-INI[3]/INI[5]*360 F=TECHNOLOGY[30]/4
+ELSE
+	G91 Z=-INI[3] X=INI[3]*INI[14]/2 C=INI[3]/INI[5]*360 F=TECHNOLOGY[30]/4
+ENDIF
+
+RET
+

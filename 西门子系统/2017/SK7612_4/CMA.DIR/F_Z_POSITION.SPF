@@ -1,0 +1,10 @@
+PROC F_Z_POSITION(REAL POSITION) DISPLOF
+;;**********程序功能**********
+;;Z轴快速移动
+
+;;***************************
+
+G01 G90 Z=POSITION F=INI[56]
+
+RET
+

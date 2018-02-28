@@ -1,0 +1,20 @@
+PROC B_RING_GROOVE DISPLOF
+;;**********程序功能**********
+;;环形槽
+;;***************************
+
+IF $A_DBB[6]==1
+    F_GRINDWHEEL_RUN(INI[81])
+
+    CYCLE:
+    MSG("头架旋转中...")
+    IF GRIND[0]<>1
+        G91 C=360000 F=INI[58]
+    ELSE
+        G91 C=-360000 F=INI[58]
+    ENDIF
+    GOTOB CYCLE
+ENDIF
+
+RET
+

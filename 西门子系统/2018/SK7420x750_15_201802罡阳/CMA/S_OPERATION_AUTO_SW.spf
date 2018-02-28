@@ -1,0 +1,72 @@
+PROC S_OPERATION_AUTO_SW DISPLOF
+
+
+DEF REAL DR0,DR1,DR2,DR3,DR4,DR5,DR6
+
+G90 G53 C=0 F3600
+M33																				
+MSG("自动对刀测量已开始,请等待!")
+
+WHILE($AC_MEA[1]==TRUE )											
+	G90 G53 G01 C=10 F300 												
+ENDWHILE
+DR0=$AA_IM[C]															
+
+MEAS=1 G91 G53 C=300 F=1800									
+ G91 G53 C=-10 F=1800
+MEAS=1 G91 G53 C=20 F=300
+G04 F=0.5 
+DR1=$AA_IM[C]															
+MEAS=1 G91 G53 C=-300 F=1800								
+G91 G53 C=10 F=1800
+MEAS=1 G91 G53 C=-20 F=300
+G04 F=0.5 
+DR2=$AA_IM[C]															
+IF DR1>=DR2
+	DR3=(DR0+DR1)/2
+ELSE
+	DR3=180+(DR0+DR1)/2
+ENDIF
+IF DR3>=360
+	DR3=DR3-360	
+ENDIF															
+
+DR4=ABS(INI[42]-INI[6])/INI[5]									
+DR5=(DR4-TRUNC(DR4))*360
+IF INI[0]==1
+	TOOL_SET[4]=DR3+DR5
+ELSE
+	TOOL_SET[4]=DR3-DR5
+ENDIF
+IF TOOL_SET[4]>=360
+	TOOL_SET[4]=TOOL_SET[4]-360
+ENDIF
+IF TOOL_SET[4]<0
+	TOOL_SET[4]=TOOL_SET[4]+360	
+ENDIF									
+M34																
+
+IF TOOL_SET[8]==0
+	MSG("自动对刀以结束，请手动对刀确任确认X轴初始进刀深度")
+	G90 G53 G01 Z=INI[6]	X=INI[10]								
+	G90 C=TOOL_SET[4]	
+	IF INI[0]==1
+		G91 Z=-INI[3] X=INI[3]*INI[14]/2 C=-INI[3]/INI[5]*360 F=50	
+	ELSE
+		G91 Z=-INI[3] X=INI[3]*INI[14]/2 C=INI[3]/INI[5]*360 F=50	
+	ENDIF
+ENDIF	
+RET
+
+
+
+
+
+
+
+
+
+
+
+
+

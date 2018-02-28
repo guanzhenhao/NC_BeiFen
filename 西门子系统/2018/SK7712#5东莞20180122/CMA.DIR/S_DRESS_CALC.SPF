@@ -1,0 +1,84 @@
+PROC S_DRESS_CALC SBLOF DISPLOF
+;;**********程序功能**********
+;;修整次数循环累加:
+;;修整次数累加，粗精修切换，赋值
+;;***************************
+
+IF DRESSER[20]<DRESSER[13]
+    DRESSER[20]=DRESSER[20]+1
+    IF DRESSER[11]<>0
+        IF GRIND[0]<>1
+            WHEEL[10]=WHEEL[10]-DRESSER[14]
+            WHEEL[11]=WHEEL[11]-DRESSER[14]
+        ELSE
+            IF DRESSER[37]==0
+                WHEEL[10]=WHEEL[10]+DRESSER[14]
+                WHEEL[11]=WHEEL[11]+DRESSER[14]
+            ELSE
+                WHEEL[10]=WHEEL[10]-DRESSER[14]
+                WHEEL[11]=WHEEL[11]-DRESSER[14]
+            ENDIF
+        ENDIF
+        DRESSER[10]=DRESSER[16]
+    ELSE
+        IF GRIND[0]<>1
+            WHEEL[10]=WHEEL[10]-DRESSER[15]
+            WHEEL[11]=WHEEL[11]-DRESSER[15]
+        ELSE
+            IF DRESSER[37]==0
+                WHEEL[10]=WHEEL[10]+DRESSER[15]
+                WHEEL[11]=WHEEL[11]+DRESSER[15]
+            ELSE
+                WHEEL[10]=WHEEL[10]-DRESSER[15]
+                WHEEL[11]=WHEEL[11]-DRESSER[15]
+            ENDIF
+        ENDIF
+        DRESSER[10]=DRESSER[17]
+    ENDIF
+    IF DRESSER[11]<>0
+        MSG("新砂轮轮廓初始修型中-->正在进行第"<<DRESSER[20]<<"次,还剩"<<DRESSER[13]-DRESSER[20]<<"次完成,进给量:"<<DRESSER[14]<<"mm")
+    ELSE
+        MSG("新砂轮轮廓初始修型中-->正在进行第"<<DRESSER[20]<<"次,还剩"<<DRESSER[13]-DRESSER[20]<<"次完成,进给量:"<<DRESSER[15]<<"mm")
+    ENDIF
+ELSE
+    IF DRESSER[18]<DRESSER[11]
+        DRESSER[18]=DRESSER[18]+1
+        IF GRIND[0]<>1
+            WHEEL[10]=WHEEL[10]-DRESSER[14]
+            WHEEL[11]=WHEEL[11]-DRESSER[14]
+        ELSE
+            IF DRESSER[37]==0
+                WHEEL[10]=WHEEL[10]+DRESSER[14]
+                WHEEL[11]=WHEEL[11]+DRESSER[14]
+            ELSE
+                WHEEL[10]=WHEEL[10]-DRESSER[14]
+                WHEEL[11]=WHEEL[11]-DRESSER[14]
+            ENDIF
+        ENDIF
+        DRESSER[10]=DRESSER[16]
+        MSG("粗修整中-->正在进行第"<<DRESSER[18]<<"次,还剩"<<DRESSER[11]-DRESSER[18]<<"次完成,进给量:"<<DRESSER[14]<<"mm")
+    ELSE
+        IF DRESSER[19]<DRESSER[12]
+            DRESSER[19]=DRESSER[19]+1
+            IF GRIND[0]<>1
+                WHEEL[10]=WHEEL[10]-DRESSER[15]
+                WHEEL[11]=WHEEL[11]-DRESSER[15]
+            ELSE
+                IF DRESSER[37]==0
+                    WHEEL[10]=WHEEL[10]+DRESSER[15]
+                    WHEEL[11]=WHEEL[11]+DRESSER[15]
+                ELSE
+                    WHEEL[10]=WHEEL[10]-DRESSER[15]
+                    WHEEL[11]=WHEEL[11]-DRESSER[15]
+                ENDIF
+            ENDIF
+            DRESSER[10]=DRESSER[17]
+            MSG("精修整中-->正在进行第"<<DRESSER[19]<<"次,还剩"<<DRESSER[12]-DRESSER[19]<<"次完成,进给量:"<<DRESSER[15]<<"mm")
+        ELSE
+            DRESSER[19]=DRESSER[19]+1
+        ENDIF
+    ENDIF
+ENDIF
+
+RET
+
