@@ -1,0 +1,31 @@
+PROC F_GRINDWHEEL_RUN(REAL SPEED) DISPLOF
+;;**********程序功能**********
+;;砂轮启动
+
+;;***************************
+
+IF $A_DBB[12]==0
+    INI[71]=0.5
+ELSE
+    INI[71]=0.2
+ENDIF
+
+IF SPEED>50000
+	;SPEED=50000
+ENDIF
+IF (R294<>-1)AND(SPEED>40000)
+	;SPEED=40000
+ENDIF
+
+IF (INI[36]==0) OR (INI[36]==2)
+    R299=SPEED
+    G4 F0.2
+    M13
+ELSE
+    M1=3 S1=SPEED
+ENDIF
+
+G4 F=INI[71]
+
+RET
+

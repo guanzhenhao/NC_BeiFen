@@ -1,0 +1,33 @@
+PROC C_OPERATION_JOG DISPLOF
+;;**********程序功能**********
+;;螺纹手动对刀
+;;***************************
+
+
+DDD0:
+MSG("正在开至工件起点")
+
+G90 G01 C=ACP(INI[27]) F=INI[58]
+
+F_Z_POSITION(INI[28])
+
+GOTOF DDD2
+
+
+DDD2:
+MSG("X轴开至对刀起始位")
+G01 G90 X=INI[10] F=INI[55]
+
+F_Z_POSITION(INI[6])
+
+STOPRE
+TOOL_SET[5]=$AA_IM[C]
+TOOL_SET[0]=$AA_IM[Z]
+IF TOOL_SET[57]==1
+	G01 G90 X=PROCESS[13] F=500;第二件对刀X定位
+ENDIF
+MSG("手动对刀已启动,请进行对刀操作")
+F_ZC_START(TOOL_SET[0],INI[7],INI[80],1)
+
+RET
+

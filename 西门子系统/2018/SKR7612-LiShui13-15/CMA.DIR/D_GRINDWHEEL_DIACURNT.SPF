@@ -1,0 +1,12 @@
+PROC D_GRINDWHEEL_DIACURNT DISPLOF
+;;**********程序功能**********
+;;当前砂轮直径计算
+;;***************************
+IF DRESSER[5]==0
+	DRESSER[24]=(-DRESSER[2]-WHEEL[0]/2+DRESSER[1]-WHEEL[12])*2
+ELSE
+	DRESSER[24]=(-DRESSER[2]-WHEEL[0]/2+DRESSER[1]-WHEEL[10])*2
+ENDIF
+
+RET
+

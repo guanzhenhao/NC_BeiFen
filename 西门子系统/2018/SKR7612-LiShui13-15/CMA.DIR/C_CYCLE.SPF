@@ -1,0 +1,75 @@
+PROC C_CYCLE DISPLON
+;;**********程序功能**********
+;;螺纹磨削循环:
+;;螺纹磨削初始走位及子程序的调用，磨削中修整的调用
+;;***************************
+
+IF TECH_TIME[0]+TECH_TIME[1]+TECH_TIME[2]+TECH_TIME[3]+TECH_TIME[4]==0
+    RET
+ENDIF
+
+IF INI[75]==1
+    INI[75]=0
+    
+    F_Z_POSITION(INI[28])
+    
+    M9
+    M39
+    B_DRESS
+    ;D_GRIND_POSITION
+    IF DRESSER[6]<>0
+        RET
+    ENDIF
+    C_LINESPEED_GRIND
+ENDIF
+
+IF (TECH_TIME[0]+TECH_TIME[1]+TECH_TIME[2]+TECH_TIME[3]+TECH_TIME[4]==1) OR (INI[72]==1)
+    INI[72]=0
+    
+    
+    
+    D_GRIND_INIT_POSITION(INI[28],INI[10],INI[56],INI[55])
+    
+ENDIF
+
+M20
+M8
+;M38
+
+D_GRIND
+PLCASUP1
+
+IF INI[47]==0
+    PROCESS[14]=PROCESS[14]+PROCESS[8]
+ENDIF
+
+IF $A_DBB[2]==1
+    RET
+ENDIF
+
+IF PROCESS[3]==1
+    
+    F_Z_POSITION(INI[28])
+    
+    M9
+    M39
+    B_DRESS
+    ;D_GRIND_POSITION
+    PROCESS[3]=0
+    IF DRESSER[6]<>0
+        RET
+    ENDIF
+    INI[72]=1
+    C_LINESPEED_GRIND
+ENDIF
+
+IF (TECH_TIME[0]+TECH_TIME[1]+TECH_TIME[2]+TECH_TIME[3]+TECH_TIME[4]==TECHNOLOGY[10]+TECHNOLOGY[11]+TECHNOLOGY[12]+TECHNOLOGY[13]+DIY[1])
+    
+    
+    M9
+    D_GRIND_INIT_POSITION(INI[28],INI[23],INI[56],INI[55])
+
+ENDIF
+
+RET
+

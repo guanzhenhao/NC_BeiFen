@@ -1,0 +1,90 @@
+PROC RIGHT_GRIND ;DISPLOF
+;磨削中心右端面磨削
+DEF REAL TEMP
+
+R298=PROCESS[49]
+M23
+MSG("C轴启动,右端面磨削开始")
+
+M3 S=PROCESS[92]                           ;C轴启动
+M38                                        ;磨削冷却开
+
+TECHNOLOGY[100]=0                          ;循环计数清空
+DRESSER[98]=0
+PROCESS[37]=PROCESS[47]
+G90 G1 Z=PROCESS[37]+0.1 F3000
+WHILE TECHNOLOGY[100]<TECHNOLOGY[101]
+M3 S=PROCESS[92]
+M23
+M38
+G90 G1 Z=PROCESS[37] F300            ;Z轴开至右端面磨削起点外
+G90 G1 X=PROCESS[20]-1 F3000              ;U轴开至磨削位置
+STOPRE
+TECHNOLOGY[100]=TECHNOLOGY[100]+1           ;磨削循环计数
+PROCESS[37]=PROCESS[37]-PROCESS[81]
+
+MSG("右端面粗磨削，当前为第"<< TECHNOLOGY[100]<<"次磨削，还剩"<<TECHNOLOGY[101]-TECHNOLOGY[100]<<"次，进给量为"<<PROCESS[81]<<"mm")
+FGROUP(Z)
+G94 G90 G01 Z=PROCESS[37] X=PROCESS[20]+PROCESS[27] F=PROCESS[86] ;Z/U插补法进刀 磨削右端面
+DRESSER[98]=DRESSER[98]+1
+G4 F3
+
+G94 G90 G01 Z=PROCESS[37]+0.1  F50    ;Z/U插补退刀 
+G90 G01 X=PROCESS[20]-1 F500
+STOPRE
+
+;磨削中修整相关
+IF (DRESSER[98]==TECHNOLOGY[257]) AND (TECHNOLOGY[257]<>0)
+	TEMP=DRESSER[94];临时保存界面上的粗修次数
+	DRESSER[94]=0
+	SIDE_DRESS                          ;调用侧面修整子程序
+	DRESSER[94]=TEMP;恢复界面上的粗修次数
+	DRESSER[98]=0
+ENDIF
+ENDWHILE
+
+STOPRE
+;粗磨结束
+
+TECHNOLOGY[100]=0                          ;循环计数清空
+DRESSER[98]=0
+
+WHILE TECHNOLOGY[100]<TECHNOLOGY[244]
+M3 S=PROCESS[93]
+M23
+M38
+FGROUP(Z)
+G90 G1 Z=PROCESS[37]+0.04 X=PROCESS[20]+PROCESS[27]-1 F50            ;Z轴开至右端面磨削起点外
+STOPRE
+TECHNOLOGY[100]=TECHNOLOGY[100]+1           ;磨削循环计数
+PROCESS[37]=PROCESS[37]-PROCESS[80]
+
+MSG("右端面精磨削，当前为第"<< TECHNOLOGY[100]<<"次磨削，还剩"<<TECHNOLOGY[244]-TECHNOLOGY[100]<<"次，进给量为"<<PROCESS[80]<<"mm")
+FGROUP(Z)
+G94 G90 G01 Z=PROCESS[37] X=PROCESS[20]+PROCESS[27] F=PROCESS[87] ;Z/U插补法进刀 磨削右端面
+DRESSER[98]=DRESSER[98]+1
+G4 F3
+
+G94 G90 G01 Z=PROCESS[37]+0.04 F50    ;Z/U插补退刀 
+G90 G01 X=PROCESS[20]-1 F500
+STOPRE
+
+;磨削中修整相关
+IF (DRESSER[98]==TECHNOLOGY[258]) AND (TECHNOLOGY[258]<>0)
+	TEMP=DRESSER[94];临时保存界面上的粗修次数
+	DRESSER[94]=0
+	SIDE_DRESS                          ;调用侧面修整子程序
+	DRESSER[94]=TEMP;恢复界面上的粗修次数
+	DRESSER[98]=0
+ENDIF
+ENDWHILE
+
+M39                                         ;磨削冷却关
+
+G90 G1 Z=PROCESS[47] F300             ;退刀至右端面初始接触位置
+
+G90 G1 X=PROCESS[46]-1 F=300            ;退刀至外圆磨初始接触位置
+
+
+RET
+

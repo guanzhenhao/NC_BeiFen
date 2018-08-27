@@ -1,0 +1,277 @@
+PROC C_OPERATION_AUTO ;DISPLOF
+;磨削中心自动对刀
+
+;TOOL_SET[1]		对刀完成后Z轴坐标(自动对刀)
+;TOOL_SET[9]		*测头半径
+;TOOL_SET[10]		*测头中心到砂轮中心Z向距离
+;TOOL_SET[11]		探头接触工件表面时X坐标
+;TOOL_SET[22]		(0=圆形孔,1=腰型孔)
+;TOOL_SET[23]		*测头中心与砂轮中心距离(X向)
+;TOOL_SET[24]		首件工件端面接触测头时Z向坐标
+;INI[5]				导程
+;INI[6]				磨削起点
+;INI[10]			**工件中心X坐标
+;INI[34]			工件外圆
+;INI[35]			*工件端面到反相器孔距离
+;INI[29]			工件安装位置允许的最大误差(预设数据)
+;INI[31]			腰型孔角度(展开图尺寸)
+;INI[32]			腰型孔长(展开图尺寸)
+;INI[33]			腰型孔宽(展开图尺寸)
+;-----------------------------------------------
+DEF	REAL DR0,DR1,DR2,DR3,DR4,DR5,DR6,DR7,DR8,DR9,DR10,DR11,DR12,DR13,DR14,DR15,DR16,DR17,DR18,DR19,DR20,DR21,DR22,DR23,DR24,DR25,DR26,DR27,DR28,DR29,DR30,DR31,DR32
+;----------------------------------------------
+M34
+M70
+TOOL_SET[11]=PROCESS[53]-INI[34]/2;测头接触工件外圆坐标计算(测头从后方伸出)
+DR1=INI[6]+TOOL_SET[10]+5;测头移动到磨削起点时的Z坐标(DR1)
+SPOF						
+DRFOF;关闭DRF
+;G90 G01 U=$AA_SOFTENDP[U]-1 F=2000
+G90 G01 X=$AA_SOFTENDN[X]+1 F=3000
+G90 G01 Z=INI[48] C=INI[49] F3000
+G94	G90	G53	G01	X=TOOL_SET[11]+2*TOOL_SET[9] F3000 MEAS=1;测头X到位
+IF $A_PROBE[1]==1 GOTOF ERROR4
+M33;测头伸出
+WHILE($A_DBB[8]==0)
+G4F0.5
+MSG("等测头伸出")
+ENDWHILE
+
+;IF $A_DBB[4]==0 GOTOF ERROR1		;测头是否伸出
+STOPRE
+;G94	G90	G53	G01	Z=DR1  F2000 MEAS=1	;使测头移动到磨削起点
+IF $A_PROBE[1]==1 GOTOF ERROR4
+DR2=$AA_MM[C];读取C轴当前角度(DR2) 
+
+;------------------测量右端面------------------
+MSG("测量工件端面位置")
+;测量端面坐标DR3
+G94 G91 G1 Z-200 F500 MEAS=1				;工件向右移动,触碰测头停止
+STOPRE
+IF $A_PROBE[1]==0 GOTOF ERROR5
+G94	G91	G1 Z=2										;工件左移2mm
+G94	G91	G1 Z=-10 F=50 MEAS=1			;工件右移，触碰测头停止
+DR3=$AA_MM[Z]										;测头接触工件端面坐标(DR3)
+
+DR4=ABS(DR3-TOOL_SET[24])					;工件安装位置误差值(测量数据)(DR4)
+DR5=ABS(DR1-DR3)									;测头在相对磨削起点距离工件端面距离(DR5)
+IF DR4>INI[29]	GOTOF ERROR2
+;PROCESS[47]=PROCESS[47]+(DR3-TOOL_SET[24]);给右端面磨削初始接触位置赋值
+;PROCESS[47]=PROCESS[50]+DR3-TOOL_SET[9];给右端面磨削初始接触位置赋值
+G94 G91 G53 Z=5	F500									;工件离开测头5mm
+G94 G90 G53 G01	X=TOOL_SET[11]-20	 	;测头移动到距离工件外缘20mm处
+
+;------------------测量外圆面------------------
+G94 G90 G1 Z=DR3-3*TOOL_SET[9] F500 MEAS=1			;工件右移准备测量外圆
+IF $A_PROBE[1]==1 GOTOF ERROR4
+G94 G90 G53	G01	X=TOOL_SET[11]+4*TOOL_SET[9] F200	MEAS=1;测量外圆
+DR32=$AA_MM[X]									;测头接触外圆时X坐标
+;PROCESS[46]=PROCESS[52]+ABS(DR32-PROCESS[53])				;U砂轮磨削外圆初始接触位置
+G94 G90 G53 G01	X=DR32-20	F1000 	;测头移动到距离工件外缘20mm处
+;---------------测头伸向转向器孔---------------
+G90	G53  G01	Z=DR3-INI[35]-TOOL_SET[9] F500	MEAS=1	;测头走到反相器孔
+IF $A_PROBE[1]==1 GOTOF ERROR4
+G90	G53	G01	X=DR32+1.5*TOOL_SET[9] MEAS=1	;测头伸向反相器孔内1.5个测头半径的距离
+IF $AC_MEA[1]==1 GOTOF ERROR3
+IF TOOL_SET[22]==0 GOTOF YK
+IF TOOL_SET[22]==1 GOTOF YXK	
+
+
+;----------测量开始，测角度(圆形孔)------------
+YK:
+MSG("测量开始，测角度 C 中心 ")
+G91 G01 C180 F720 MEAS=1		
+G91 G01 C-2 F360
+G91 G01 C180 F360 MEAS=1
+DR6=$AA_MM[C]					;测头接触下边缘时C角度DR6
+G04 F0.1
+G01 C-2 F360
+G91 G01 C-180 F720 MEAS=1
+G91 G01 C2 F360
+G91 G01 C-180 F360 MEAS=1
+DR7=$AA_MM[C]					;测头接触上边缘时C角度DR7
+G04 F0.1
+G01 C2 F500
+IF DR6<DR7
+DR8=180+(DR6+DR7)/2				;计算中心C角度
+ELSE
+DR8=(DR6+DR7)/2
+ENDIF
+IF DR8>=360
+DR8=DR8-360
+ENDIF
+TOOL_SET[5]=DR8
+G90	G01	C=DC(DR8) F500			;旋转C轴使测头在孔中心(垂直方向)
+;--------------测量开始，测Z中心---------------
+MSG("测量开始，测 Z 中心 ")
+G91 G01 Z=30 F300 MEAS=1
+G04 F0.2
+G91 G01 Z-2 F300
+G91 G01 Z=5 F300 MEAS=1
+DR9=$AA_MM[Z];右侧接触点Z坐标DR9
+G04 F0.2
+G91 G01 Z-2
+G91 G01 Z=-30 F300 MEAS=1
+G04 F0.2
+G91 G01 Z=2 F300
+G91 G01 Z=-5 F300 MEAS=1
+DR10=$AA_MM[Z];左侧接触点Z坐标DR10
+G04 F0.2
+G91 G01 Z2 F300
+DR11=(DR9+DR10)/2;计算中心Z坐标DR11
+TOOL_SET[1]=DR11;将测头到腰型孔中心坐标转化为砂轮到螺旋槽中心坐标(Z)
+G90	G01	Z=DR11 F500	
+G90	G01	X=DR32-20				 ;测头退出圆孔
+
+;----------------测量结束---------------------
+GOTOF NEXT
+
+;----------------腰型孔测量--------------------
+YXK:
+DR12=INI[32]*COS(INI[31])				;腰型孔长投影到水平向长度DR12
+DR13=INI[32]*SIN(INI[31])				;腰型孔长投影到垂直向长度DR13
+DR14=DR13/($PI*INI[34])*360				;将垂直长度转换为C轴旋转角度DR14
+DR15=INI[33]*SIN(INI[31])				;腰型孔宽投影到水平向长度DR15
+DR16=INI[33]*COS(INI[31])				;腰型孔宽投影到垂直向长度DR16
+DR17=DR16/($PI*INI[34])*360				;将垂直宽度转换为C轴旋转角度DR17
+
+MSG("腰型孔测量开始,请等待测量结束！")
+;(腰型孔宽度方向测量)
+G90	G53	G01	X=DR32+PROCESS[54]+1.5*TOOL_SET[9] MEAS=1	;测头伸向反相器孔内1.5个测头半径的距离
+IF $AC_MEA[1]==1 GOTOF ERROR3
+G91	G01	Z=-DR15	C=-DR17 F=200 MEAS=1
+G91	G01	Z=0.1*DR15	C=0.1*DR17	F100
+G91	G01	Z=-DR15	C=-DR17 F=25 MEAS=1
+G04	F=0.1
+DR18=$AA_MM[Z]							;读取当前Z	DR18
+DR19=$AA_MM[C]							;读取当前C	DR19
+STOPRE
+G91	Z=0.1*DR15 C=0.1*DR17 F100
+G91	G01	Z=DR15 C=DR17 F=200 MEAS=1
+G91	G01	Z=-0.1*DR15	C=-0.1*DR17 F100
+G91	G01	Z=DR15 C=DR17 F=25 MEAS=1
+G04	F=0.1
+DR20=$AA_MM[Z]							;读取当前Z	DR20
+DR21=$AA_MM[C]							;读取当前C	DR21
+DR22=(DR18+DR20)/2
+IF INI[31]<90
+	IF DR19>DR21						;DR22
+	DR23=180+(DR19+DR21)/2				;DR23
+	ELSE
+	DR23=(DR19+DR21)/2
+	ENDIF
+ELSE
+  	IF DR19<DR21						;DR22
+	DR23=180+(DR19+DR21)/2				;DR23
+	ELSE
+	DR23=(DR19+DR21)/2
+	ENDIF
+ENDIF
+IF DR23>=360
+DR23=DR23-360
+ENDIF 
+G90	G01	Z=DR22 C=DC(DR23) F=200
+
+;(腰型孔长度方向测量)
+G90	G53	G01	X=DR32+1.5*TOOL_SET[9] MEAS=1	;测头伸向反相器孔内1.5个测头半径的距离
+IF $AC_MEA[1]==1 GOTOF ERROR3
+G91	G01	Z=-DR12 C=DR14 F=200 MEAS=1
+G91	G01	Z=0.1*DR12	C=-0.1*DR14	F100
+G91	G01	Z=-DR12 C=DR14 F=25 MEAS=1
+G04	F=0.1
+DR24=$AA_MM[Z]							;读取当前Z	DR24
+DR25=$AA_MM[C]							;读取当前C	DR25
+G91	G01	Z=0.1*DR12	C=-0.1*DR14	F100
+STOPRE
+G91	G01	Z=DR12	C=-DR14	F=200 MEAS=1
+G91	G01	Z=-0.1*DR12 C=0.1*DR14 F=100	
+G91	G01	Z=DR12	C=-DR14	F=25 MEAS=1
+G04	F=0.1
+DR26=$AA_MM[Z]							 ;读取当前Z	DR26
+DR27=$AA_MM[C]							 ;读取当前C	DR27
+DR28=(DR24+DR26)/2						 ;腰型孔中心坐标Z
+IF DR25<DR27
+DR29=180+(DR25+DR27)/2						;腰型孔中心坐标C
+ELSE
+DR29=(DR25+DR27)/2
+ENDIF
+IF DR29>=360
+DR29=DR29-360
+ENDIF
+TOOL_SET[1]=DR28
+TOOL_SET[5]=DR29
+STOPRE
+G91	G01	Z=-0.2*DR12 C=0.2*DR14 F=200	
+G90	G01	Z=DR28 C=DC(DR29) F=200
+G90	G01	X=DR32-20 F=1000			;测头退出腰型孔
+
+;----------------耳朵端面测量------------------
+NEXT:
+;端面不需要测量
+GOTOF BACK
+
+;---------------报警信息:---------------------
+ERROR1:
+MSG("测头伸出未到位!!,请检查气缸")
+G04	F=99999
+GOTOB ERROR1
+
+ERROR2:
+G94 G91 G01 Z5 F500
+G94	G90	G01	X=TOOL_SET[11]-20 F1000		;测头快速后退
+MSG("工件安装位置大于最大公差,请检查工件安装是否到位！")
+WHILE(1)
+M0
+ENDWHILE
+G04	F99999
+
+
+ERROR3:
+G94	G90	G01	X=TOOL_SET[11]-20 F1000
+MSG("工件安装位置有误，请旋转C轴，确保工件孔在侧母线上！")
+G04	F99999
+GOTOB ERROR3
+
+ERROR4:
+G94	G90	G01	X=TOOL_SET[11]-20 F1000		;测头快速后退
+MSG("危险！测头碰撞物体,请检查相关参数是否正确！")
+G04	F99999
+GOTOB ERROR4
+
+ERROR5:
+G94	G90	G01	X=TOOL_SET[11]-20 F1000		;测头快速后退
+MSG("测量失败,端面未找到！")
+G04	F99999
+GOTOB ERROR5
+;------------------测头回退--------------------
+BACK:
+M34
+WHILE($A_DBB[7]==0)
+G4F0.5
+MSG("等测头收回")
+ENDWHILE
+
+G94 G90 G01 X=INI[23] F3000					;X轴工件夹装位置
+G94	G90	G01	Z=INI[48]	F3000   	;Z轴移动到磨削起点
+
+;---------计算内滚到磨削时C轴起始角度----------
+DR30=ABS(TOOL_SET[1]-TOOL_SET[10]-0.5*INI[5]-INI[6]);计算理论完成对刀点到磨削起点距离(TOOL_SET[1]-TOOL_SET[10]-0.5*INI[5]是将砂轮开到测头测出的轨道中心时Z坐标)
+DR31=(DR30/INI[5]-TRUNC(DR30/INI[5]))*360;磨削起点到对刀点C轴旋转角度计算
+IF INI[0]==1;左旋
+TOOL_SET[4]=TOOL_SET[5]+DR31
+ELSE
+TOOL_SET[4]=TOOL_SET[5]-DR31
+ENDIF
+
+WHILE((TOOL_SET[4]>=360) OR (TOOL_SET[4]<0));起始角不在0-360范围内
+	IF TOOL_SET[4]>=360
+		TOOL_SET[4]=TOOL_SET[4]-360
+	ELSE
+		IF TOOL_SET[4]<0
+			TOOL_SET[4]=360+TOOL_SET[4]
+		ENDIF
+	ENDIF
+ENDWHILE
+
+RET
+

@@ -1,0 +1,8 @@
+﻿外圆磨削变量表
+WAIYUAN[0]砂轮宽度
+WAIYUAN[1]外圆长度
+WAIYUAN[2]外圆上小尺寸台阶的长度,中间变量
+WAIYUAN[3]外圆批量还是单件,1批量,0单件
+WAIYUAN[4]外圆磨削界面设定的磨削总量
+WAIYUAN[5]外圆磨削时左端面处的退刀槽的宽度
+TRUNC(WAIYUAN[1]/(WAIYUAN[0]-0.1))

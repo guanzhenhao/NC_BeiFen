@@ -1,0 +1,24 @@
+PROC E_SINGLEGRIND_XZBACK(REAL POSITION) DISPLOF
+;;**********程序功能**********
+;;单向磨削后x后退情况
+
+;;***************************
+
+MSG("砂轮退出工件")
+IF INI[84]==0
+    G90 G01 X=POSITION-$AC_DRF[X] F=PROCESS[11]*4
+ELSE
+    G91G01X0.05F20
+ENDIF
+STOPRE
+G90
+INI[47]=0
+MSG("台面到磨削起点")
+IF INI[84]==0
+    G01 Z=INI[6] F=INI[56]
+ELSE
+    F_ZC_START(INI[7],INI[6],100*INI[5],0)
+ENDIF
+
+RET
+

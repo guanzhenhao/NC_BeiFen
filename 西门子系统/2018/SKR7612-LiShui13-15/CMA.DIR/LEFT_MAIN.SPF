@@ -1,0 +1,24 @@
+PROC LEFT_MAIN DISPLON
+;;左端面磨削主程序
+
+IF $A_DBB[0]==1;修整键有效
+	IF PROCESS[51]==0
+		SIDE_DRESS
+	ENDIF
+	PROCESS[51]=1
+ELSE
+	LEFT_GRIND
+		INI[98]=INI[98]+1;磨削工件计数
+		INI[100]=0
+		IF (INI[99]<>0) AND (INI[98]>=INI[99]);磨削几件后修整不为零或当前几件大于设定值
+			IF INI[98]/INI[99]-TRUNC(INI[98]/INI[99])==0
+				INI[100]=1;标记位
+			ENDIF
+			IF INI[100]==1
+				SIDE_DRESS
+			ENDIF
+		ENDIF
+ENDIF
+
+RET
+

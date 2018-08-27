@@ -1,0 +1,26 @@
+PROC SYN_MESSAGE DISPLOF
+;
+CASE PROCESS[18] OF 0 GOTOF MESSAGE_0 1 GOTOF MESSAGE_1 2 GOTOF MESSAGE_2 3 GOTOF MESSAGE_3 4 GOTOF MESSAGE_4 DEFAULT GOTOF MESSAGE_5
+MESSAGE_0:;粗磨信息
+MSG("外圆磨削,粗磨中-->正在进行第"<<TECH_TIME[5]<<"次循环,剩余"<<TECHNOLOGY[78]-TECH_TIME[5]<<"次,进给量"<<PROCESS[21]<<"mm");
+GOTOF MESSAGE_5
+;
+MESSAGE_1:;半精磨信息
+MSG("外圆磨削,半精磨中-->正在进行第"<<TECH_TIME[6]<<"次循环,剩余"<<TECHNOLOGY[83]-TECH_TIME[6]<<"次,进给量"<<PROCESS[21]<<"mm");
+GOTOF MESSAGE_5
+;
+MESSAGE_2:;精磨信息
+MSG("外圆磨削,精磨中-->正在进行第"<<TECH_TIME[7]<<"次循环,剩余"<<TECHNOLOGY[88]-TECH_TIME[7]<<"次,进给量"<<PROCESS[21]<<"mm");
+GOTOF MESSAGE_5
+;
+MESSAGE_3:;终磨信息
+MSG("外圆磨削,终磨中-->正在进行第"<<TECH_TIME[8]<<"次循环,剩余"<<TECHNOLOGY[93]-TECH_TIME[8]<<"次,进给量"<<PROCESS[21]<<"mm");
+GOTOF MESSAGE_5
+;
+MESSAGE_4:;自定义磨削,信息显示
+MSG("外圆磨削,自定义磨削-->正在进行第"<<PROCESS[5]<<"次工序,第"<<TECH_TIME[9]<<"次循环,第"<<WORK[1]+1<<"头,"<<"剩余"<<DIY[7]-TECH_TIME[9]<<"次,进给量"<<PROCESS[21]<<"mm");
+;
+MESSAGE_5:;
+
+RET
+

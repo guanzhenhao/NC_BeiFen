@@ -1,0 +1,35 @@
+PROC EXCIRCLE_GRIND DISPLON
+;;外圆磨削主程序
+
+TECH_TIME[5]=0
+TECH_TIME[6]=0
+TECH_TIME[7]=0
+TECH_TIME[8]=0
+TECH_TIME[9]=0
+PROCESS[18]=0
+PROCESS[19]=0
+;外圆磨削循环控制
+EXCIRCLE_LINESPEED_GRIND
+;M38
+EXCIRCLE_GRIND_SUB;批量
+;-------------------------------------------------------
+
+G_ENDING:
+
+IF (PROCESS[56]==0)OR(PROCESS[55]==0)
+	INI[95]=0
+	INI[93]=INI[93]+1;磨削工件计数,按工件个数修砂轮
+	IF (INI[94]<>0) AND (INI[93]>=INI[94]);磨削几件后修整不为零或当前几件大于设定值
+		IF INI[93]/INI[94]-TRUNC(INI[93]/INI[94])==0
+			INI[95]=1;标记位
+		ENDIF
+		IF INI[95]==1;磨削几件后修整标记位
+			INI[95]=0;标记位
+			PROCESS[28]=0;不在区分纯修整和磨削中修整
+			EXCIRCLE_DRESS;外圆砂轮修整程序
+		ENDIF
+	ENDIF
+ENDIF
+
+RET
+
