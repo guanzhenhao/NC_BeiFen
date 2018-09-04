@@ -1,0 +1,14 @@
+PROC F_PROBE_AC_MEA(REAL PROBE_CHOICE) DISPLOF
+;;**********程序功能**********
+;;测量中AC_MEA信号的状态
+;PROBE_CHOICE:测量机构1/2
+;;***************************
+
+IF PROBE_CHOICE==0;测量机构1
+    TOOL_SET[53]=$AC_MEA[1]
+ELSE
+    TOOL_SET[53]=$AC_MEA[2]
+ENDIF
+
+RET
+

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE SlAeAlarmAttributes>
+<SlAeAlarmAttributes Version="01.00.00.00">
+    <Types>
+    </Types>
+    <Sources>
+        <Source CatLink="1" SourceID="52" SourceURL="/PLC/828D">
+            <Alarms>
+                <Alarm AlarmID="700000">
+                    <MSGTEXT>slaeconv|700000/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700001">
+                    <MSGTEXT>slaeconv|700001/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700002">
+                    <MSGTEXT>slaeconv|700002/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700003">
+                    <MSGTEXT>slaeconv|700003/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700004">
+                    <MSGTEXT>slaeconv|700004/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700005">
+                    <MSGTEXT>slaeconv|700005/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700006">
+                    <MSGTEXT>slaeconv|700006/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700007">
+                    <MSGTEXT>slaeconv|700007/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700008">
+                    <MSGTEXT>slaeconv|700008/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700009">
+                    <MSGTEXT>slaeconv|700009/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700010">
+                    <MSGTEXT>slaeconv|700010/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700011">
+                    <MSGTEXT>slaeconv|700011/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700012">
+                    <MSGTEXT>slaeconv|700012/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700013">
+                    <MSGTEXT>slaeconv|700013/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700014">
+                    <MSGTEXT>slaeconv|700014/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700015">
+                    <MSGTEXT>slaeconv|700015/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700016">
+                    <MSGTEXT>slaeconv|700016/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700017">
+                    <MSGTEXT>slaeconv|700017/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700018">
+                    <MSGTEXT>slaeconv|700018/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700019">
+                    <MSGTEXT>slaeconv|700019/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700020">
+                    <MSGTEXT>slaeconv|700020/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700021">
+                    <MSGTEXT>slaeconv|700021/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700022">
+                    <MSGTEXT>slaeconv|700022/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700023">
+                    <MSGTEXT>slaeconv|700023/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700024">
+                    <MSGTEXT>slaeconv|700024/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700025">
+                    <MSGTEXT>slaeconv|700025/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700026">
+                    <MSGTEXT>slaeconv|700026/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700027">
+                    <MSGTEXT>slaeconv|700027/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700028">
+                    <MSGTEXT>slaeconv|700028/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700029">
+                    <MSGTEXT>slaeconv|700029/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700030">
+                    <MSGTEXT>slaeconv|700030/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700031">
+                    <MSGTEXT>slaeconv|700031/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700032">
+                    <MSGTEXT>slaeconv|700032/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700033">
+                    <MSGTEXT>slaeconv|700033/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700034">
+                    <MSGTEXT>slaeconv|700034/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700035">
+                    <MSGTEXT>slaeconv|700035/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700040">
+                    <MSGTEXT>slaeconv|700040/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700069">
+                    <MSGTEXT>slaeconv|700069/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+                <Alarm AlarmID="700074">
+                    <MSGTEXT>slaeconv|700074/PLC/828D</MSGTEXT>
+                    <TEXTCOLOR>#FF0000</TEXTCOLOR>
+                    <TEXTBACKGROUNDCOLOR>#D7E1EB</TEXTBACKGROUNDCOLOR>
+                    <NUMBERCOLOR>#FFFFFF</NUMBERCOLOR>
+                    <NUMBERBACKGROUNDCOLOR>#FF0000</NUMBERBACKGROUNDCOLOR>
+                </Alarm>
+            </Alarms>
+        </Source>
+    </Sources>
+</SlAeAlarmAttributes>
